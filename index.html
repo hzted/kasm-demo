@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KASM Demo Website</title>
+  <style>
+    :root {
+      --text: #222;
+      --muted: #666;
+      --line: #ddd;
+      --soft: #f7f7f7;
+      --link: #2457a6;
+      --max-width: 960px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: #fff;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: 32px 20px 56px;
+    }
+
+    header {
+      text-align: center;
+      padding: 0 0 28px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .title-band {
+      background: #f3f6fb;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 28px 18px;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: 32px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      margin: 0 auto 12px;
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+
+    .authors {
+      margin: 10px 0 18px;
+      font-size: 15px;
+      color: #333;
+    }
+
+    .links a {
+      display: inline-block;
+      margin: 4px 6px;
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      color: var(--link);
+      text-decoration: none;
+      font-size: 14px;
+      background: #fff;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    nav {
+      margin: 20px 0 0;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    nav a {
+      color: var(--link);
+      text-decoration: none;
+      margin: 0 8px;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    section {
+      padding: 28px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      line-height: 1.3;
+    }
+
+    h3 {
+      margin: 20px 0 8px;
+      font-size: 18px;
+    }
+
+    p {
+      margin: 0 0 12px;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .placeholder {
+      margin: 16px 0 8px;
+      border: 2px dashed #bbb;
+      background: var(--soft);
+      min-height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: var(--muted);
+      padding: 16px;
+      border-radius: 4px;
+    }
+
+    .placeholder.small {
+      min-height: 150px;
+    }
+
+    .caption {
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .card {
+      border: 1px solid var(--line);
+      padding: 14px;
+      border-radius: 4px;
+      background: #fff;
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 17px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #444;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid var(--line);
+      padding: 8px 10px;
+      text-align: center;
+    }
+
+    th {
+      background: var(--soft);
+      font-weight: 600;
+    }
+
+    td:first-child, th:first-child {
+      text-align: left;
+    }
+
+    code {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 13px;
+    }
+
+    pre {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      padding: 12px;
+      overflow-x: auto;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    footer {
+      padding-top: 24px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: center;
+    }
+
+    @media (max-width: 760px) {
+      h1 {
+        font-size: 26px;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      table {
+        font-size: 13px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="title-band">
+        <h1>Learning Sentiment Dynamics</h1>
+        <p class="subtitle">Knowledge-Augmented Sequence Modeling for Document-Level Aspect-Based Sentiment Analysis</p>
+      </div>
+      <p class="authors">Anonymous Writers</p>
+      <div class="links">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#cases">Case Study</a>
+        <a href="#references">References</a>
+      </div>
+      <nav>
+        <a href="paper.pdf">Paper</a>
+        <a href="https://github.com/your-repo/KASM">Code</a>
+        <a href="slides.pdf">Slides</a>
+      </nav>
+    </header>
+
+    <section id="abstract">
+      <h2>Abstract</h2>
+      <p>
+        Document-level aspect-based sentiment analysis requires predicting aspect-specific sentiment in long reviews,
+        where evidence may be dispersed, implicit, and affected by discourse-level sentiment shifts. KASM is a
+        knowledge-augmented sequence modeling framework for document-level Aspect Category Sentiment Classification.
+        It constructs aspect-conditioned knowledge tuples with LLMs, grounds review fragments through relation-aware
+        contrastive retrieval, and integrates the retrieved evidence into sequence modeling for discourse-level sentiment prediction.
+      </p>
+    </section>
+
+    <section id="motivation">
+      <h2>Motivation</h2>
+      <p>
+        Long reviews often discuss multiple aspects at once. A hotel review may praise the location while criticizing
+        the room, service, or check-in process. Simple document-level classification can miss these fine-grained signals,
+        while sentence-level decomposition may fail when evidence is distributed across sentences.
+      </p>
+      <p>
+        KASM focuses on explicit evidence grounding: the model links review fragments to aspect triggers, opinion phrases,
+        and sentiment polarities before making the final aspect-level prediction.
+      </p>
+    </section>
+
+    <section id="method">
+      <h2>Method Overview</h2>
+      <div class="placeholder">
+        <div>
+          <strong>Figure Placeholder: KASM Pipeline</strong><br />
+          Put your pipeline figure here, for example:<br />
+          <code>assets/kasm_pipeline.png</code>
+        </div>
+      </div>
+      <p class="caption">Figure 1: KASM pipeline: LLM-based knowledge construction, relation-aware retrieval, and sentiment sequence modeling.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>1. Knowledge Construction</h3>
+          <p>Use an LLM to extract aspect-trigger-opinion tuples from raw reviews, then validate pseudo labels through human-in-the-loop calibration.</p>
+        </div>
+        <div class="card">
+          <h3>2. Evidence Retrieval</h3>
+          <p>Train a relation-aware retriever to match review fragments with aspect triggers and opinion phrases from the knowledge base.</p>
+        </div>
+        <div class="card">
+          <h3>3. Sentiment Dynamics</h3>
+          <p>Use pseudo-label guided sequence modeling to capture how sentence-level evidence changes across a long document.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="results">
+      <h2>Main Results</h2>
+      <p>
+        The table below summarizes the long-document results. Replace the placeholder values or add more baselines when the final experiments are complete.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>BeerAdvocate F1 (&gt;512)</th>
+            <th>TripAdvisor F1 (&gt;512)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>DART</td>
+            <td>92.86</td>
+            <td>85.96</td>
+          </tr>
+          <tr>
+            <td>InstructABSA</td>
+            <td>79.83</td>
+            <td>69.65</td>
+          </tr>
+          <tr>
+            <td>GPT-5.5 Few-shot</td>
+            <td>84.15</td>
+            <td>90.12</td>
+          </tr>
+          <tr>
+            <td>Retrieval-IT</td>
+            <td>82.35</td>
+            <td>60.47</td>
+          </tr>
+          <tr>
+            <td><strong>KASM</strong></td>
+            <td><strong>92.86</strong></td>
+            <td><strong>85.96</strong></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="note">
+        Note: This website is intended as a lightweight demo page. Keep only finalized numbers before public release.
+      </p>
+    </section>
+
+    <section id="cases">
+      <h2>Qualitative Case Study</h2>
+      <p>
+        KASM produces explicit evidence paths that help explain why a document is assigned a particular aspect-level sentiment.
+      </p>
+
+      <div class="placeholder small">
+        <div>
+          <strong>Figure Placeholder: Case Study</strong><br />
+          Suggested path: <code>assets/case_study.png</code>
+        </div>
+      </div>
+      <p class="caption">Figure 2: Examples of implicit aspect grounding, cross-sentence aggregation, mixed-opinion disambiguation, and related-aspect distinction.</p>
+
+      <div class="grid">
+        <div class="card">
+          <h3>Implicit Aspect Grounding</h3>
+          <p>Example: linking “valet” to the service aspect and grounding it to an opinion phrase.</p>
+        </div>
+        <div class="card">
+          <h3>Cross-sentence Evidence</h3>
+          <p>Aggregating evidence distributed across several review sentences.</p>
+        </div>
+        <div class="card">
+          <h3>Mixed Opinions</h3>
+          <p>Separating conflicting sentiment cues instead of collapsing the whole review into one polarity.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="figures">
+      <h2>Additional Figures</h2>
+      <div class="placeholder small">
+        <div>
+          <strong>Figure Placeholder: Retrieval Evidence Matching</strong><br />
+          Suggested path: <code>assets/evidence_matching.png</code>
+        </div>
+      </div>
+      <div class="placeholder small">
+        <div>
+          <strong>Figure Placeholder: Error Analysis</strong><br />
+          Suggested path: <code>assets/error_analysis.png</code>
+        </div>
+      </div>
+    </section>
+
+    <section id="references">
+      <h2>References</h2>
+      <p class="note">
+        Add paper references here, or link directly to the PDF. This demo page intentionally keeps references short.
+      </p>
+    </section>
+
+    <footer>
+      Demo website for KASM. This page is for research presentation purposes only.
+    </footer>
+  </div>
+</body>
+</html>
