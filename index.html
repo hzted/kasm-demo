@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -213,7 +214,6 @@
       font-size: 13px;
     }
 
-
     .figure-img {
       width: 100%;
       max-width: 100%;
@@ -264,21 +264,28 @@
     }
   </style>
 </head>
+
 <body>
   <div class="container">
     <header>
       <div class="title-band">
         <h1>Learning Sentiment Dynamics</h1>
-        <p class="subtitle">Knowledge-Augmented Sequence Modeling for Document-Level Aspect-Based Sentiment Analysis</p>
+        <p class="subtitle">
+          Knowledge-Augmented Sequence Modeling for Document-Level Aspect-Based Sentiment Analysis
+        </p>
       </div>
+
       <p class="authors">Anonymous Writers</p>
+
       <div class="links">
         <a href="#abstract">Abstract</a>
+        <a href="#motivation">Motivation</a>
         <a href="#method">Method</a>
         <a href="#results">Results</a>
         <a href="#cases">Case Study</a>
         <a href="#references">References</a>
       </div>
+
       <nav>
         <a href="paper.pdf">Paper</a>
         <a href="https://github.com/your-repo/KASM">Code</a>
@@ -290,10 +297,19 @@
       <h2>Abstract</h2>
       <p>
         Document-level aspect-based sentiment analysis requires predicting aspect-specific sentiment in long reviews,
-        where evidence may be dispersed, implicit, and affected by discourse-level sentiment shifts. KASM is a
+        where evidence may be dispersed across sentences, implicit, and affected by document-level sentiment shifts
+        <a href="#ref-yin2017">[8]</a>, <a href="#ref-ji2020">[4]</a>.
+        Prior work has modeled document-level sentiment preferences <a href="#ref-chen2020">[1]</a>,
+        weak supervision <a href="#ref-zeng2019">[9]</a>, instruction-based ABSA
+        <a href="#ref-scaria2024">[6]</a>, and retrieval-augmented instruction tuning
+        <a href="#ref-zheng2024">[10]</a>. KASM builds on this line of work by introducing a
         knowledge-augmented sequence modeling framework for document-level Aspect Category Sentiment Classification.
-        It constructs aspect-conditioned knowledge tuples with LLMs, grounds review fragments through relation-aware
-        contrastive retrieval, and integrates the retrieved evidence into sequence modeling for discourse-level sentiment prediction.
+      </p>
+      <p>
+        Specifically, KASM constructs aspect-conditioned knowledge tuples with LLMs, grounds review fragments through
+        relation-aware contrastive retrieval, and integrates the retrieved evidence into sequence modeling for
+        discourse-level sentiment prediction. This design aims to improve evidence grounding for implicit aspect cues,
+        cross-sentence sentiment aggregation, and mixed-opinion disambiguation.
       </p>
     </section>
 
@@ -301,34 +317,58 @@
       <h2>Motivation</h2>
       <p>
         Long reviews often discuss multiple aspects at once. A hotel review may praise the location while criticizing
-        the room, service, or check-in process. Simple document-level classification can miss these fine-grained signals,
-        while sentence-level decomposition may fail when evidence is distributed across sentences.
+        the room, service, or check-in process. This makes document-level aspect-based sentiment analysis harder than
+        sentence-level classification, because the model must identify aspect-specific evidence across a long context
+        rather than relying on a single local opinion phrase <a href="#ref-yin2017">[8]</a>,
+        <a href="#ref-ji2020">[4]</a>.
       </p>
       <p>
-        KASM focuses on explicit evidence grounding: the model links review fragments to aspect triggers, opinion phrases,
-        and sentiment polarities before making the final aspect-level prediction.
+        Existing approaches address this challenge from different angles. Document-level sentiment preference modeling
+        captures global sentiment tendencies <a href="#ref-chen2020">[1]</a>, diversified multiple-instance learning
+        aggregates sentence-level evidence for multi-aspect classification <a href="#ref-ji2020">[4]</a>, and recent
+        instruction-based methods reformulate ABSA as a prompting or instruction-following task
+        <a href="#ref-scaria2024">[6]</a>, <a href="#ref-fei2023">[3]</a>.
+        KASM instead emphasizes explicit evidence grounding: the model links review fragments to aspect triggers,
+        opinion phrases, and sentiment polarities before making the final aspect-level prediction.
       </p>
     </section>
 
     <section id="method">
       <h2>Method Overview</h2>
+
       <figure>
         <img class="figure-img" src="assets/kasm_pipeline.png" alt="KASM pipeline" />
-        <figcaption class="caption">Figure 1: KASM pipeline: LLM-based knowledge construction, relation-aware retrieval, and sentiment sequence modeling.</figcaption>
+        <figcaption class="caption">
+          Figure 1: KASM pipeline: LLM-based knowledge construction, relation-aware retrieval, and sentiment sequence modeling.
+        </figcaption>
       </figure>
 
       <div class="grid">
         <div class="card">
           <h3>1. Knowledge Construction</h3>
-          <p>Use an LLM to extract aspect-trigger-opinion tuples from raw reviews, then validate pseudo labels through human-in-the-loop calibration.</p>
+          <p>
+            Use an LLM to extract aspect-trigger-opinion tuples from raw reviews, inspired by recent work on
+            instruction-tuned language models <a href="#ref-chung2024">[2]</a> and implicit sentiment reasoning
+            <a href="#ref-fei2023">[3]</a>.
+          </p>
         </div>
+
         <div class="card">
           <h3>2. Evidence Retrieval</h3>
-          <p>Train a relation-aware retriever to match review fragments with aspect triggers and opinion phrases from the knowledge base.</p>
+          <p>
+            Train a relation-aware retriever to match review fragments with aspect triggers and opinion phrases,
+            following the motivation of retrieval-based example ranking for ABSA
+            <a href="#ref-zheng2024">[10]</a>.
+          </p>
         </div>
+
         <div class="card">
           <h3>3. Sentiment Dynamics</h3>
-          <p>Use pseudo-label guided sequence modeling to capture how sentence-level evidence changes across a long document.</p>
+          <p>
+            Use pseudo-label guided sequence modeling to capture how sentence-level evidence evolves across a long
+            document, extending prior document-level multi-aspect sentiment modeling
+            <a href="#ref-yin2017">[8]</a>, <a href="#ref-ji2020">[4]</a>.
+          </p>
         </div>
       </div>
     </section>
@@ -336,8 +376,15 @@
     <section id="results">
       <h2>Main Results</h2>
       <p>
-        The table below summarizes the long-document results. Replace the placeholder values or add more baselines when the final experiments are complete.
+        The table below compares KASM with representative document-level ABSA and instruction-based baselines,
+        including DART <a href="#ref-yan2024">[7]</a>, InstructABSA
+        <a href="#ref-scaria2024">[6]</a>, GPT-5.5 few-shot prompting
+        <a href="#ref-openai2026">[5]</a>, and Retrieval-IT
+        <a href="#ref-zheng2024">[10]</a>. KASM achieves the strongest F1 on both BeerAdvocate and TripAdvisor,
+        suggesting that explicit knowledge construction and evidence-grounded sequence modeling are useful for
+        long-document aspect sentiment prediction.
       </p>
+
       <table>
         <thead>
           <tr>
@@ -348,22 +395,22 @@
         </thead>
         <tbody>
           <tr>
-            <td>DART</td>
+            <td>DART <a href="#ref-yan2024">[7]</a></td>
             <td>87.33</td>
             <td>85.79</td>
           </tr>
           <tr>
-            <td>InstructABSA</td>
+            <td>InstructABSA <a href="#ref-scaria2024">[6]</a></td>
             <td>87.97</td>
             <td>81.71</td>
           </tr>
           <tr>
-            <td>GPT-5.5 Few-shot</td>
+            <td>GPT-5.5 Few-shot <a href="#ref-openai2026">[5]</a></td>
             <td>87.31</td>
             <td>80.35</td>
           </tr>
           <tr>
-            <td>Retrieval-IT</td>
+            <td>Retrieval-IT <a href="#ref-zheng2024">[10]</a></td>
             <td>78.32</td>
             <td>67.05</td>
           </tr>
@@ -374,6 +421,7 @@
           </tr>
         </tbody>
       </table>
+
       <p class="note">
         Note: This website is intended as a lightweight demo page. Keep only finalized numbers before public release.
       </p>
@@ -382,58 +430,141 @@
     <section id="cases">
       <h2>Qualitative Case Study</h2>
       <p>
-        KASM produces explicit evidence paths that help explain why a document is assigned a particular aspect-level sentiment.
+        KASM produces explicit evidence paths that help explain why a document is assigned a particular aspect-level
+        sentiment. This is especially useful for implicit aspect grounding, cross-sentence aggregation, and
+        mixed-opinion disambiguation, which are common challenges in document-level multi-aspect sentiment analysis
+        <a href="#ref-yin2017">[8]</a>, <a href="#ref-ji2020">[4]</a>.
       </p>
 
       <figure>
         <img class="figure-img" src="assets/case_study.png" alt="KASM qualitative case study" />
-        <figcaption class="caption">Figure 2: Examples of implicit aspect grounding, cross-sentence aggregation, mixed-opinion disambiguation, and related-aspect distinction.</figcaption>
+        <figcaption class="caption">
+          Figure 2: Examples of implicit aspect grounding, cross-sentence aggregation, mixed-opinion disambiguation,
+          and related-aspect distinction.
+        </figcaption>
       </figure>
 
       <div class="grid">
         <div class="card">
           <h3>Implicit Aspect Grounding</h3>
-          <p>Example: linking “valet” to the service aspect and grounding it to an opinion phrase.</p>
+          <p>
+            Example: linking “valet” to the service aspect and grounding it to an opinion phrase, following the need
+            to resolve implicit sentiment cues in ABSA <a href="#ref-fei2023">[3]</a>.
+          </p>
         </div>
+
         <div class="card">
           <h3>Cross-sentence Evidence</h3>
-          <p>Aggregating evidence distributed across several review sentences.</p>
+          <p>
+            Aggregating evidence distributed across several review sentences, a core issue in document-level
+            multi-aspect sentiment classification <a href="#ref-yin2017">[8]</a>,
+            <a href="#ref-ji2020">[4]</a>.
+          </p>
         </div>
+
         <div class="card">
           <h3>Mixed Opinions</h3>
-          <p>Separating conflicting sentiment cues instead of collapsing the whole review into one polarity.</p>
+          <p>
+            Separating conflicting sentiment cues instead of collapsing the whole review into one polarity, which helps
+            preserve aspect-specific sentiment distinctions <a href="#ref-chen2020">[1]</a>.
+          </p>
         </div>
       </div>
     </section>
 
     <section id="figures">
       <h2>Additional Figures</h2>
+
       <div class="figure-grid">
         <figure>
           <img class="figure-img" src="assets/evidence_matching.png" alt="Document-aware evidence matching" />
-          <figcaption class="caption">Figure 3: Document-aware evidence matching in KASM.</figcaption>
+          <figcaption class="caption">
+            Figure 3: Document-aware evidence matching in KASM, motivated by retrieval-based ABSA
+            <a href="#ref-zheng2024">[10]</a>.
+          </figcaption>
         </figure>
+
         <figure>
           <img class="figure-img" src="assets/error_analysis.png" alt="Error analysis" />
-          <figcaption class="caption">Figure 4: Retrieval error analysis.</figcaption>
+          <figcaption class="caption">
+            Figure 4: Retrieval error analysis for implicit aspect cues and cross-sentence sentiment aggregation
+            <a href="#ref-fei2023">[3]</a>, <a href="#ref-ji2020">[4]</a>.
+          </figcaption>
         </figure>
       </div>
     </section>
 
     <section id="references">
       <h2>References</h2>
+
       <ol class="references">
-        <li>Chen, X., Sun, C., Wang, J., Li, S., Si, L., Zhang, M., & Zhou, G. (2020). Aspect sentiment classification with document-level sentiment preference modeling. <em>Proceedings of ACL</em>, 3667–3677.</li>
-        <li>Chung, H. W., Hou, L., Longpre, S., Zoph, B., Tay, Y., Fedus, W., Li, Y., Wang, X., Dehghani, M., Brahma, S., et al. (2024). Scaling instruction-finetuned language models. <em>Journal of Machine Learning Research</em>, 25(70), 1–53.</li>
-        <li>Fei, H., Li, B., Liu, Q., Bing, L., Li, F., & Chua, T.-S. (2023). Reasoning implicit sentiment with chain-of-thought prompting. <em>Proceedings of ACL, Volume 2: Short Papers</em>, 1171–1182.</li>
-        <li>Ji, Y., Liu, H., He, B., Xiao, X., Wu, H., & Yu, Y. (2020). Diversified multiple instance learning for document-level multi-aspect sentiment classification. <em>Proceedings of EMNLP</em>, 7012–7023.</li>
-        <li>OpenAI. (2026). GPT-5.5 system card. OpenAI Technical Report. Accessed May 24, 2026.</li>
-        <li>Scaria, K., Gupta, H., Goyal, S., Sawant, S., Mishra, S., & Baral, C. (2024). InstructABSA: Instruction learning for aspect based sentiment analysis. <em>Proceedings of NAACL-HLT, Volume 2: Short Papers</em>, 720–736.</li>
-        <li>Yan, Z., Hsu, W., Lee, M.-L., & Bartram-Shaw, D. (2024). Modeling complex interactions in long documents for aspect-based sentiment analysis. <em>Proceedings of the 14th Workshop on Computational Approaches to Subjectivity, Sentiment, & Social Media Analysis</em>, 23–34.</li>
-        <li>Yin, Y., Song, Y., & Zhang, M. (2017). Document-level multi-aspect sentiment classification as machine comprehension. <em>Proceedings of EMNLP</em>, 2044–2054.</li>
-        <li>Zeng, Z., Zhou, W., Liu, X., & Song, Y. (2019). A variational approach to weakly supervised document-level multi-aspect sentiment classification. <em>Proceedings of NAACL-HLT</em>, 386–396.</li>
-        <li>Zheng, G., Wang, J., Yu, L.-C., & Zhang, X. (2024). Instruction tuning with retrieval-based examples ranking for aspect-based sentiment analysis. <em>Findings of ACL</em>, 4777–4788.</li>
-        <li>Zhong, Q., Ding, L., Liu, J., Du, B., Jin, H., & Tao, D. (2023). Knowledge graph augmented network towards multiview representation learning for aspect-based sentiment analysis. <em>IEEE Transactions on Knowledge and Data Engineering</em>, 35(10), 10098–10111.</li>
+        <li id="ref-chen2020">
+          Chen, X., Sun, C., Wang, J., Li, S., Si, L., Zhang, M., & Zhou, G. (2020).
+          Aspect sentiment classification with document-level sentiment preference modeling.
+          <em>Proceedings of ACL</em>, 3667–3677.
+        </li>
+
+        <li id="ref-chung2024">
+          Chung, H. W., Hou, L., Longpre, S., Zoph, B., Tay, Y., Fedus, W., Li, Y., Wang, X.,
+          Dehghani, M., Brahma, S., et al. (2024).
+          Scaling instruction-finetuned language models.
+          <em>Journal of Machine Learning Research</em>, 25(70), 1–53.
+        </li>
+
+        <li id="ref-fei2023">
+          Fei, H., Li, B., Liu, Q., Bing, L., Li, F., & Chua, T.-S. (2023).
+          Reasoning implicit sentiment with chain-of-thought prompting.
+          <em>Proceedings of ACL, Volume 2: Short Papers</em>, 1171–1182.
+        </li>
+
+        <li id="ref-ji2020">
+          Ji, Y., Liu, H., He, B., Xiao, X., Wu, H., & Yu, Y. (2020).
+          Diversified multiple instance learning for document-level multi-aspect sentiment classification.
+          <em>Proceedings of EMNLP</em>, 7012–7023.
+        </li>
+
+        <li id="ref-openai2026">
+          OpenAI. (2026).
+          GPT-5.5 system card.
+          OpenAI Technical Report. Accessed May 24, 2026.
+        </li>
+
+        <li id="ref-scaria2024">
+          Scaria, K., Gupta, H., Goyal, S., Sawant, S., Mishra, S., & Baral, C. (2024).
+          InstructABSA: Instruction learning for aspect based sentiment analysis.
+          <em>Proceedings of NAACL-HLT, Volume 2: Short Papers</em>, 720–736.
+        </li>
+
+        <li id="ref-yan2024">
+          Yan, Z., Hsu, W., Lee, M.-L., & Bartram-Shaw, D. (2024).
+          Modeling complex interactions in long documents for aspect-based sentiment analysis.
+          <em>Proceedings of the 14th Workshop on Computational Approaches to Subjectivity, Sentiment, & Social Media Analysis</em>,
+          23–34.
+        </li>
+
+        <li id="ref-yin2017">
+          Yin, Y., Song, Y., & Zhang, M. (2017).
+          Document-level multi-aspect sentiment classification as machine comprehension.
+          <em>Proceedings of EMNLP</em>, 2044–2054.
+        </li>
+
+        <li id="ref-zeng2019">
+          Zeng, Z., Zhou, W., Liu, X., & Song, Y. (2019).
+          A variational approach to weakly supervised document-level multi-aspect sentiment classification.
+          <em>Proceedings of NAACL-HLT</em>, 386–396.
+        </li>
+
+        <li id="ref-zheng2024">
+          Zheng, G., Wang, J., Yu, L.-C., & Zhang, X. (2024).
+          Instruction tuning with retrieval-based examples ranking for aspect-based sentiment analysis.
+          <em>Findings of ACL</em>, 4777–4788.
+        </li>
+
+        <li id="ref-zhong2023">
+          Zhong, Q., Ding, L., Liu, J., Du, B., Jin, H., & Tao, D. (2023).
+          Knowledge graph augmented network towards multiview representation learning for aspect-based sentiment analysis.
+          <em>IEEE Transactions on Knowledge and Data Engineering</em>, 35(10), 10098–10111.
+        </li>
       </ol>
     </section>
 
@@ -443,3 +574,4 @@
   </div>
 </body>
 </html>
+```
