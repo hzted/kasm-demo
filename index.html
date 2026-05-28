@@ -213,6 +213,34 @@
       font-size: 13px;
     }
 
+
+    .figure-img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      margin: 16px auto 6px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    .references {
+      padding-left: 22px;
+      font-size: 14px;
+    }
+
+    .references li {
+      margin-bottom: 10px;
+    }
+
     footer {
       padding-top: 24px;
       color: var(--muted);
@@ -225,7 +253,8 @@
         font-size: 26px;
       }
 
-      .grid {
+      .grid,
+      .figure-grid {
         grid-template-columns: 1fr;
       }
 
@@ -283,14 +312,10 @@
 
     <section id="method">
       <h2>Method Overview</h2>
-      <div class="placeholder">
-        <div>
-          <strong>Figure Placeholder: KASM Pipeline</strong><br />
-          Put your pipeline figure here, for example:<br />
-          <code>assets/kasm_pipeline.png</code>
-        </div>
-      </div>
-      <p class="caption">Figure 1: KASM pipeline: LLM-based knowledge construction, relation-aware retrieval, and sentiment sequence modeling.</p>
+      <figure>
+        <img class="figure-img" src="assets/kasm_pipeline.png" alt="KASM pipeline" />
+        <figcaption class="caption">Figure 1: KASM pipeline: LLM-based knowledge construction, relation-aware retrieval, and sentiment sequence modeling.</figcaption>
+      </figure>
 
       <div class="grid">
         <div class="card">
@@ -344,8 +369,8 @@
           </tr>
           <tr>
             <td><strong>KASM</strong></td>
-            <td><strong>88.53<strong></strong></td>
-            <td><strong>87.84</strong></td>
+            <td><strong>88.53</strong></td>
+            <td><strong>87.11</strong></td>
           </tr>
         </tbody>
       </table>
@@ -360,13 +385,10 @@
         KASM produces explicit evidence paths that help explain why a document is assigned a particular aspect-level sentiment.
       </p>
 
-      <div class="placeholder small">
-        <div>
-          <strong>Figure Placeholder: Case Study</strong><br />
-          Suggested path: <code>assets/case_study.png</code>
-        </div>
-      </div>
-      <p class="caption">Figure 2: Examples of implicit aspect grounding, cross-sentence aggregation, mixed-opinion disambiguation, and related-aspect distinction.</p>
+      <figure>
+        <img class="figure-img" src="assets/case_study.png" alt="KASM qualitative case study" />
+        <figcaption class="caption">Figure 2: Examples of implicit aspect grounding, cross-sentence aggregation, mixed-opinion disambiguation, and related-aspect distinction.</figcaption>
+      </figure>
 
       <div class="grid">
         <div class="card">
@@ -386,25 +408,33 @@
 
     <section id="figures">
       <h2>Additional Figures</h2>
-      <div class="placeholder small">
-        <div>
-          <strong>Figure Placeholder: Retrieval Evidence Matching</strong><br />
-          Suggested path: <code>assets/evidence_matching.png</code>
-        </div>
-      </div>
-      <div class="placeholder small">
-        <div>
-          <strong>Figure Placeholder: Error Analysis</strong><br />
-          Suggested path: <code>assets/error_analysis.png</code>
-        </div>
+      <div class="figure-grid">
+        <figure>
+          <img class="figure-img" src="assets/evidence_matching.png" alt="Document-aware evidence matching" />
+          <figcaption class="caption">Figure 3: Document-aware evidence matching in KASM.</figcaption>
+        </figure>
+        <figure>
+          <img class="figure-img" src="assets/error_analysis.png" alt="Error analysis" />
+          <figcaption class="caption">Figure 4: Retrieval error analysis.</figcaption>
+        </figure>
       </div>
     </section>
 
     <section id="references">
       <h2>References</h2>
-      <p class="note">
-        Add paper references here, or link directly to the PDF. This demo page intentionally keeps references short.
-      </p>
+      <ol class="references">
+        <li>Chen, X., Sun, C., Wang, J., Li, S., Si, L., Zhang, M., & Zhou, G. (2020). Aspect sentiment classification with document-level sentiment preference modeling. <em>Proceedings of ACL</em>, 3667–3677.</li>
+        <li>Chung, H. W., Hou, L., Longpre, S., Zoph, B., Tay, Y., Fedus, W., Li, Y., Wang, X., Dehghani, M., Brahma, S., et al. (2024). Scaling instruction-finetuned language models. <em>Journal of Machine Learning Research</em>, 25(70), 1–53.</li>
+        <li>Fei, H., Li, B., Liu, Q., Bing, L., Li, F., & Chua, T.-S. (2023). Reasoning implicit sentiment with chain-of-thought prompting. <em>Proceedings of ACL, Volume 2: Short Papers</em>, 1171–1182.</li>
+        <li>Ji, Y., Liu, H., He, B., Xiao, X., Wu, H., & Yu, Y. (2020). Diversified multiple instance learning for document-level multi-aspect sentiment classification. <em>Proceedings of EMNLP</em>, 7012–7023.</li>
+        <li>OpenAI. (2026). GPT-5.5 system card. OpenAI Technical Report. Accessed May 24, 2026.</li>
+        <li>Scaria, K., Gupta, H., Goyal, S., Sawant, S., Mishra, S., & Baral, C. (2024). InstructABSA: Instruction learning for aspect based sentiment analysis. <em>Proceedings of NAACL-HLT, Volume 2: Short Papers</em>, 720–736.</li>
+        <li>Yan, Z., Hsu, W., Lee, M.-L., & Bartram-Shaw, D. (2024). Modeling complex interactions in long documents for aspect-based sentiment analysis. <em>Proceedings of the 14th Workshop on Computational Approaches to Subjectivity, Sentiment, & Social Media Analysis</em>, 23–34.</li>
+        <li>Yin, Y., Song, Y., & Zhang, M. (2017). Document-level multi-aspect sentiment classification as machine comprehension. <em>Proceedings of EMNLP</em>, 2044–2054.</li>
+        <li>Zeng, Z., Zhou, W., Liu, X., & Song, Y. (2019). A variational approach to weakly supervised document-level multi-aspect sentiment classification. <em>Proceedings of NAACL-HLT</em>, 386–396.</li>
+        <li>Zheng, G., Wang, J., Yu, L.-C., & Zhang, X. (2024). Instruction tuning with retrieval-based examples ranking for aspect-based sentiment analysis. <em>Findings of ACL</em>, 4777–4788.</li>
+        <li>Zhong, Q., Ding, L., Liu, J., Du, B., Jin, H., & Tao, D. (2023). Knowledge graph augmented network towards multiview representation learning for aspect-based sentiment analysis. <em>IEEE Transactions on Knowledge and Data Engineering</em>, 35(10), 10098–10111.</li>
+      </ol>
     </section>
 
     <footer>
