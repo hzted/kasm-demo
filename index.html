@@ -177,6 +177,16 @@
       text-align: left;
     }
 
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 14px;
+    }
+
+    .table-wrap table {
+      min-width: 920px;
+      margin-top: 0;
+    }
+
     code {
       background: var(--soft);
       border: 1px solid var(--line);
@@ -358,50 +368,145 @@
         including DART <a href="#ref-yan2024">[8]</a>, InstructABSA
         <a href="#ref-scaria2024">[4]</a>, GPT-5.5 few-shot prompting
         <a href="#ref-openai2026">[9]</a>, and Retrieval-IT
-        <a href="#ref-zheng2024">[7]</a>. KASM achieves the strongest F1 on both BeerAdvocate and TripAdvisor,
-        suggesting that explicit knowledge construction and evidence-grounded sequence modeling are useful for
-        long-document aspect sentiment prediction.
+        <a href="#ref-zheng2024">[7]</a>. Results are reported on the full test set and on long documents over
+        512 tokens.
       </p>
 
-      <table>
-        <thead>
-          <tr>
-            <th>Model</th>
-            <th>BeerAdvocate F1</th>
-            <th>TripAdvisor F1</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>DART <a href="#ref-yan2024">[8]</a></td>
-            <td>87.33</td>
-            <td>85.79</td>
-          </tr>
-          <tr>
-            <td>InstructABSA <a href="#ref-scaria2024">[4]</a></td>
-            <td>87.97</td>
-            <td>81.71</td>
-          </tr>
-          <tr>
-            <td>GPT-5.5 Few-shot <a href="#ref-openai2026">[9]</a></td>
-            <td>87.31</td>
-            <td>80.35</td>
-          </tr>
-          <tr>
-            <td>Retrieval-IT <a href="#ref-zheng2024">[7]</a></td>
-            <td>78.32</td>
-            <td>67.05</td>
-          </tr>
-          <tr>
-            <td><strong>KASM</strong></td>
-            <td><strong>88.53</strong></td>
-            <td><strong>87.11</strong></td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th rowspan="2">Category</th>
+              <th rowspan="2">Model</th>
+              <th colspan="4">BeerAdvocate</th>
+              <th colspan="4">TripAdvisor</th>
+            </tr>
+            <tr>
+              <th>All Acc</th>
+              <th>All F1</th>
+              <th>&gt;512 Acc</th>
+              <th>&gt;512 F1</th>
+              <th>All Acc</th>
+              <th>All F1</th>
+              <th>&gt;512 Acc</th>
+              <th>&gt;512 F1</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Task-specific</td>
+              <td>D-MILN</td>
+              <td>79.86</td>
+              <td>80.12</td>
+              <td>87.85</td>
+              <td>86.09</td>
+              <td>79.52</td>
+              <td>79.03</td>
+              <td>83.61</td>
+              <td>83.13</td>
+            </tr>
+            <tr>
+              <td>Doc-level ABSA</td>
+              <td>AB-DMSC</td>
+              <td>85.98</td>
+              <td>85.21</td>
+              <td>88.14</td>
+              <td>86.59</td>
+              <td>81.26</td>
+              <td>80.46</td>
+              <td>84.04</td>
+              <td>83.44</td>
+            </tr>
+            <tr>
+              <td>Baselines</td>
+              <td>DART <a href="#ref-yan2024">[8]</a></td>
+              <td>88.25</td>
+              <td>87.33</td>
+              <td><strong>94.44</strong></td>
+              <td><strong>92.86</strong></td>
+              <td>86.38</td>
+              <td>85.79</td>
+              <td>86.48</td>
+              <td>85.96</td>
+            </tr>
+            <tr>
+              <td>Prompt-based</td>
+              <td>InstructABSA <a href="#ref-scaria2024">[4]</a></td>
+              <td><strong>88.67</strong></td>
+              <td>87.97</td>
+              <td>81.25</td>
+              <td>79.83</td>
+              <td>80.26</td>
+              <td>81.71</td>
+              <td>70.01</td>
+              <td>69.65</td>
+            </tr>
+            <tr>
+              <td>Fine-tuning</td>
+              <td>THOR</td>
+              <td>79.85</td>
+              <td>78.63</td>
+              <td>75.49</td>
+              <td>76.15</td>
+              <td>79.83</td>
+              <td>78.45</td>
+              <td>80.06</td>
+              <td>79.43</td>
+            </tr>
+            <tr>
+              <td>Direct LLM prompting</td>
+              <td>GPT5.5-zeroshot</td>
+              <td>86.15</td>
+              <td>87.08</td>
+              <td>84.23</td>
+              <td>83.97</td>
+              <td>75.73</td>
+              <td>76.98</td>
+              <td>80.43</td>
+              <td>82.44</td>
+            </tr>
+            <tr>
+              <td>Direct LLM prompting</td>
+              <td>GPT5.5-fewshot <a href="#ref-openai2026">[9]</a></td>
+              <td>86.45</td>
+              <td>87.31</td>
+              <td>85.56</td>
+              <td>84.15</td>
+              <td>79.92</td>
+              <td>80.35</td>
+              <td>79.68</td>
+              <td>80.12</td>
+            </tr>
+            <tr>
+              <td>Knowledge-enhanced</td>
+              <td>Retrieval-IT <a href="#ref-zheng2024">[7]</a></td>
+              <td>77.12</td>
+              <td>78.32</td>
+              <td>80.54</td>
+              <td>82.35</td>
+              <td>68.21</td>
+              <td>67.05</td>
+              <td>63.27</td>
+              <td>60.47</td>
+            </tr>
+            <tr>
+              <td>Knowledge-enhanced</td>
+              <td><strong>KASM</strong></td>
+              <td>88.36</td>
+              <td><strong>88.53</strong></td>
+              <td>90.31</td>
+              <td>89.26</td>
+              <td><strong>87.84</strong></td>
+              <td><strong>87.11</strong></td>
+              <td><strong>87.14</strong></td>
+              <td><strong>86.52</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       <p class="note">
-        Note: This website is intended as a lightweight demo page. Keep only finalized numbers before public release.
+        Table 3: comparison on the full test set (All) and on long documents (&gt;512 tokens).
       </p>
     </section>
 

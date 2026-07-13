@@ -1,0 +1,27 @@
+arch: kasm
+
+backbone: google/flan-t5-base
+train_decode_mode: pseudo_conf
+eval_decode_mode: pseudo_conf
+pseudo_conf_threshold: 0.5
+d_model: 768
+pseudo_bias_alpha: 1
+
+interact_encoder:
+  d_model: 768
+  num_head: 12
+  ff_dim: 3072
+  num_layers: 4
+  dropout: 0.1
+
+refine_encoder:
+  d_model: 768
+  num_head: 12
+  ff_dim: 3072
+  num_layers: 2
+  dropout: 0.1
+
+num_class: 2
+dropout: 0.1
+lambda_seq: 1
+collator: sentence

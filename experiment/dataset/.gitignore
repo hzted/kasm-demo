@@ -1,0 +1,10 @@
+*.csv
+*.jsonl
+*.pickle
+*.pkl
+*.zip
+*.tar
+*.tar.gz
+*.bak*
+!README.md
+!.gitignore

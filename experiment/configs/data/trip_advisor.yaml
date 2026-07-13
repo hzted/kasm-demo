@@ -1,0 +1,13 @@
+name: trip_advisor
+display_name: TripAdvisor
+
+max_num_seq: 512
+max_num_sent: 25
+max_num_token_per_sent: 64
+num_keywords: 10
+aspects: ["value", "room", "location", "clean", "checkin", "service", "business"]
+jsonl_aspect_aliases:
+  checkin: check-in
+num_aspect: 7
+sentence_column: -1
+skip_ratings: [-1, 3]
