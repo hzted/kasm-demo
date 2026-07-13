@@ -1,0 +1,7 @@
+# Install the runnable KASM experiment and retriever dependencies.
+#
+# CUDA-specific PyTorch builds may need to be installed separately following
+# https://pytorch.org/get-started/locally/ before running this file.
+
+-r experiment/requirements.txt
+-r retriever/requirements.txt

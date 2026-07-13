@@ -1,0 +1,12 @@
+assets/
+outputs/
+checkpoints/
+__pycache__/
+*.pyc
+*.pt
+*.bin
+*.ckpt
+*.faiss
+*.index
+*.jsonl
+*.csv

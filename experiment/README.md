@@ -34,9 +34,8 @@ dataset/<dataset>/test.jsonl
 ```
 
 The CSV contains document-level labels. The JSONL contains sentence-level
-retrieval results already aligned by `row` with the CSV `id`. Retriever code is
-owned by the sibling top-level `retriever/` module when it is added; this
-`experiment/` module only consumes the precomputed JSONL files.
+retrieval results aligned by `row` with the CSV `id`. Generate or link these
+JSONL files with the sibling top-level `retriever/` module before training.
 
 Expected full-data sizes:
 
@@ -142,13 +141,27 @@ python -u evaluate.py \
   ckpt_path=/path/to/checkpoint.ckpt
 ```
 
-## Notes For Future Retrieval Work
+## Retrieval Inputs
 
-The training code assumes retrieval is precomputed. When the top-level
-`retriever/` module is ready, write its output into the same JSONL format under
-`experiment/dataset/<dataset>/`. As long as the `row` ids match the CSV `id`
-values and the `matches` object contains the configured aspects, no KASM training
-code needs to change.
+KASM training assumes retrieval has already been written to
+`experiment/dataset/<dataset>/<split>.jsonl`. The easiest path is to link the
+released Figshare retrieval files:
+
+```bash
+cd ..
+bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever_32970428
+bash retriever/scripts/install_precomputed_jsonl.sh all
+```
+
+To regenerate a split from CSV with the retriever:
+
+```bash
+cd ..
+OVERWRITE=1 bash retriever/scripts/run_retrieval.sh trip_advisor dev
+```
+
+As long as the `row` ids match the CSV `id` values and the `matches` object
+contains the configured aspects, no KASM model code needs to change.
 
 ## What Was Removed From The Main Path
 
