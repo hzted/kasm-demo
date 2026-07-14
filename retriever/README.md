@@ -12,7 +12,21 @@ aspect triggers, opinion phrases, polarities, and confidence scores.
 
 Large retriever assets are not committed to git. Download them from Figshare:
 
-https://figshare.com/articles/conference_contribution/KASM_Retriever/32970428
+https://doi.org/10.6084/m9.figshare.32970428
+
+This Figshare package includes the released retriever checkpoints, tokenizer
+files, pseudo knowledge bases (`kb.jsonl`), contrastive training CSVs, and
+precomputed retrieval JSONL outputs for TripAdvisor and BeerAdvocate. See
+`FIGSHARE_ASSETS.md` for the asset inventory and data formats.
+
+To download through the Figshare API and verify MD5 checksums:
+
+```bash
+cd /path/to/kasm-demo
+python retriever/scripts/download_figshare_assets.py \
+  --output retriever/assets/figshare_32970428 \
+  --link
+```
 
 Then link the downloaded assets into this repo:
 
@@ -38,6 +52,9 @@ retriever/assets/
     aspect.words
     *_Faiss_matches_by_trigger.jsonl
 ```
+
+`link_figshare_assets.sh` accepts either the raw download directory containing
+`organized/` or the `organized/` directory itself.
 
 ## Generate Retrieval JSONL
 
@@ -102,11 +119,16 @@ bash retriever/scripts/train_retriever.sh trip_advisor
 The training script writes checkpoints under `retriever/outputs/`, which is
 ignored by git.
 
+The contrastive CSV uses relation types `ST`, `SO`, `TT`, `TO`, and `OO`.
+`--relation_mode all` uses all relations, `kb_only` uses `TT/TO/OO`, and
+`to_oo_only` uses `TO/OO`.
+
 ## Source Files
 
 - `src/faiss_colbert_confidence.py`: retrieval/inference pipeline.
 - `src/train_colbert_contrastive_inbatch_aux.py`: contrastive ColBERT retriever training.
 - `src/kb_build.py`: converts prompt-generated trigger/opinion records into `kb.jsonl`.
+- `scripts/download_figshare_assets.py`: downloads, verifies, and organizes released Figshare assets.
 
 The uploader's raw command note contained a local Windows path and is not
 included in this repository. The runnable commands above replace it with
