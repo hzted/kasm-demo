@@ -41,7 +41,7 @@ following the official selector, then run the command above.
 
 ```bash
 # 1. Download the Figshare retriever assets, then link them.
-bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever_32970428
+bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever
 
 # 2. Link precomputed retrieval JSONL into experiment/dataset/.
 bash retriever/scripts/install_precomputed_jsonl.sh all
