@@ -28,6 +28,24 @@ Large dataset, retriever, and checkpoint files are not committed. Place CSV
 tables under `experiment/dataset/`, and download/link the released Figshare
 assets before training or evaluation.
 
+## Released Data And Checkpoints
+
+We release the KASM data artifacts and checkpoints on Figshare:
+
+https://figshare.com/s/132e83cda32c9b18aca7
+
+The release includes the model input CSV tables, retrieved JSONL knowledge
+files, pseudo knowledge bases, retriever checkpoints, and the TripAdvisor KASM
+Lightning checkpoint. Follow the command below to download the release locally
+and link the retriever assets into this repository:
+
+```bash
+python retriever/scripts/download_figshare_assets.py \
+  --private-release \
+  --output /path/to/figshare_kasm_private_32988389 \
+  --link
+```
+
 ## Setup
 
 ```bash
