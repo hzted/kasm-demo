@@ -11,10 +11,21 @@ checkpoints, pseudo knowledge bases, contrastive training data, tokenizer files,
 precomputed retrieval outputs, and the TripAdvisor KASM Lightning checkpoint.
 These files are intentionally not committed to git.
 
+For one-command training/evaluation after cloning this repository, the bundle
+must also include model input CSV tables under:
+
+```text
+tables/
+  trip_advisor/{train,dev,test}.csv
+  beer_advocate/{train,dev,test}.csv
+```
+
 ## What The Package Contains
 
 TripAdvisor assets:
 
+- `tables/trip_advisor/train.csv`, `dev.csv`, `test.csv`: model input tables
+  with document-level labels.
 - `kb.jsonl`: pseudo trigger-opinion knowledge base built from prompt outputs.
 - `aspect.words`: aspect-word priors for retrieval.
 - `new_mixed_constrative_triplets_balanced.csv`: contrastive retriever training pairs.
@@ -25,6 +36,8 @@ TripAdvisor assets:
 
 BeerAdvocate assets:
 
+- `tables/beer_advocate/train.csv`, `dev.csv`, `test.csv`: model input tables
+  with document-level labels.
 - `kb.jsonl`: pseudo trigger-opinion knowledge base built from prompt outputs.
 - `aspect.words`: aspect-word priors for retrieval.
 - `new_mixed_constrative_triplets_balanced.csv`: contrastive retriever training pairs.
@@ -42,6 +55,15 @@ After downloading and organizing the Figshare files, link them into this repo as
 
 ```text
 retriever/assets/
+  tables/
+    trip_advisor/
+      train.csv
+      dev.csv
+      test.csv
+    beer_advocate/
+      train.csv
+      dev.csv
+      test.csv
   trip_advisor/
     aspect.words
     kb.jsonl
@@ -85,7 +107,9 @@ checkpoint.
 Then link precomputed retrieval outputs into the KASM experiment data directory:
 
 ```bash
-bash retriever/scripts/install_precomputed_jsonl.sh all
+bash retriever/scripts/install_released_data.sh all
+cd experiment
+python scripts/validate_release_data.py
 ```
 
 ## Relation Data Format

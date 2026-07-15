@@ -52,6 +52,15 @@ PRIVATE_CHECKPOINTS = {
     "trip_advisor_kasm_checkpoint": "trip_advisor_kasm_checkpoint",
 }
 
+PRIVATE_TABLE_FILES = {
+    "tables/trip_advisor/train.csv": "trip_advisor/train.csv",
+    "tables/trip_advisor/dev.csv": "trip_advisor/dev.csv",
+    "tables/trip_advisor/test.csv": "trip_advisor/test.csv",
+    "tables/beer_advocate/train.csv": "beer_advocate/train.csv",
+    "tables/beer_advocate/dev.csv": "beer_advocate/dev.csv",
+    "tables/beer_advocate/test.csv": "beer_advocate/test.csv",
+}
+
 TRIP_ADVISOR_FILES = {
     66566114: "aspect.words",
     66566117: "kb.jsonl",
@@ -202,6 +211,13 @@ def organize_private_group(root: Path, mapping: Dict[str, str], target: Path, co
         link_or_copy(src, target / name, copy=copy)
 
 
+def organize_optional_private_group(root: Path, mapping: Dict[str, str], target: Path, copy: bool) -> None:
+    for rel_src, name in mapping.items():
+        src = root / rel_src
+        if src.exists():
+            link_or_copy(src, target / name, copy=copy)
+
+
 def organize_private_assets(extracted: Path, output: Path, copy: bool = False) -> Path:
     root = find_private_root(extracted)
     organized = output / "organized"
@@ -212,6 +228,7 @@ def organize_private_assets(extracted: Path, output: Path, copy: bool = False) -
     organize_private_group(root, PRIVATE_BEER_ADVOCATE_FILES, organized / "beer_advocate", copy)
     organize_private_group(root, PRIVATE_CODE_FILES, organized / "code", copy)
     organize_private_group(root, PRIVATE_CHECKPOINTS, organized / "checkpoints", copy)
+    organize_optional_private_group(root, PRIVATE_TABLE_FILES, organized / "tables", copy)
     return organized
 
 
@@ -233,6 +250,14 @@ def link_repo_assets(organized: Path, repo_root: Path) -> None:
         elif dst.exists():
             shutil.rmtree(dst)
         dst.symlink_to(os.path.relpath(code_dir, target))
+    tables_dir = organized / "tables"
+    if tables_dir.exists():
+        dst = target / "tables"
+        if dst.is_symlink() or dst.is_file():
+            dst.unlink()
+        elif dst.exists():
+            shutil.rmtree(dst)
+        dst.symlink_to(os.path.relpath(tables_dir, target))
 
 
 def main() -> None:

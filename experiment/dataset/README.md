@@ -2,7 +2,17 @@
 
 Large dataset files are not committed to this anonymous repository.
 
-Place files in this layout before training:
+Install the released CSV tables and retrieved JSONL files from the Figshare
+bundle:
+
+```bash
+cd ../..
+bash retriever/scripts/install_released_data.sh all
+cd experiment
+python scripts/validate_release_data.py
+```
+
+The installed layout should be:
 
 ```text
 dataset/

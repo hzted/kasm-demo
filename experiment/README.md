@@ -34,14 +34,14 @@ dataset/<dataset>/test.jsonl
 ```
 
 The CSV contains document-level labels. The JSONL contains sentence-level
-retrieval results aligned by `row` with the CSV `id`. Generate or link these
-JSONL files with the sibling top-level `retriever/` module before training.
+retrieval results aligned by `row` with the CSV `id`. The released Figshare
+bundle should provide both the CSV tables and the precomputed JSONL files.
 
-Expected full-data sizes:
+Expected released-data sizes:
 
 | Dataset | Split | CSV docs | JSONL doc groups | JSONL sentence rows |
 |---|---:|---:|---:|---:|
-| TripAdvisor | train | 23,468 | 23,468 | 333,353 |
+| TripAdvisor | train | 22,665 | 22,665 | 321,583 |
 | TripAdvisor | dev | 2,939 | 2,939 | 40,982 |
 | TripAdvisor | test | 2,939 | 2,939 | 39,416 |
 | BeerAdvocate | train | 22,067 | 22,067 | 244,554 |
@@ -144,13 +144,16 @@ python -u evaluate.py \
 ## Retrieval Inputs
 
 KASM training assumes retrieval has already been written to
-`experiment/dataset/<dataset>/<split>.jsonl`. The easiest path is to link the
-released Figshare retrieval files:
+`experiment/dataset/<dataset>/<split>.jsonl` and CSV tables have been written to
+`experiment/dataset/<dataset>/<split>.csv`. The easiest path is to install the
+released Figshare files:
 
 ```bash
 cd ..
-bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever_32970428
-bash retriever/scripts/install_precomputed_jsonl.sh all
+bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_private_32988389/organized
+bash retriever/scripts/install_released_data.sh all
+cd experiment
+python scripts/validate_release_data.py
 ```
 
 To regenerate a split from CSV with the retriever:

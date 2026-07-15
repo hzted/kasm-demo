@@ -42,6 +42,15 @@ Expected linked layout:
 
 ```text
 retriever/assets/
+  tables/
+    trip_advisor/
+      train.csv
+      dev.csv
+      test.csv
+    beer_advocate/
+      train.csv
+      dev.csv
+      test.csv
   trip_advisor/
     best_model.pt
     tokenizer/
@@ -80,20 +89,27 @@ CKPT=/path/to/figshare_kasm_private_32988389/organized/checkpoints/trip_advisor_
 
 ## Generate Retrieval JSONL
 
-If you want to use the precomputed Figshare retrieval outputs directly, link
-them into `experiment/dataset/`:
+If you want to use the precomputed Figshare CSV tables and retrieval outputs
+directly, link them into `experiment/dataset/`:
 
 ```bash
 cd /path/to/kasm-demo
-bash retriever/scripts/install_precomputed_jsonl.sh all
+bash retriever/scripts/install_released_data.sh all
+cd experiment
+python scripts/validate_release_data.py
 ```
 
 This creates symlinks by default. Use `MODE=copy` to copy files instead, and
 `OVERWRITE=1` to replace existing local JSONL files.
 
 ```bash
-OVERWRITE=1 MODE=copy bash retriever/scripts/install_precomputed_jsonl.sh trip_advisor
+OVERWRITE=1 MODE=copy bash retriever/scripts/install_released_data.sh trip_advisor
 ```
+
+If the Figshare bundle has not yet been updated with `tables/<dataset>/*.csv`,
+`install_released_data.sh` will stop and explain the missing table files. In
+that case, place the CSV tables manually under `experiment/dataset/<dataset>/`
+and use `install_precomputed_jsonl.sh` for JSONL-only installation.
 
 The retrieval script reads `experiment/dataset/<dataset>/<split>.csv` and writes
 the matching JSONL file back into the same dataset split.
