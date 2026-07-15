@@ -10,21 +10,24 @@ contrastive objectives over sentence-to-KB and KB-to-KB relation pairs. At
 inference time, the retriever writes one JSONL row per sentence with matched
 aspect triggers, opinion phrases, polarities, and confidence scores.
 
-Large retriever assets are not committed to git. Download them from Figshare:
+Large retriever assets are not committed to git. Download the current released
+bundle from Figshare:
 
-https://doi.org/10.6084/m9.figshare.32970428
+https://figshare.com/s/132e83cda32c9b18aca7
 
-This Figshare package includes the released retriever checkpoints, tokenizer
-files, pseudo knowledge bases (`kb.jsonl`), contrastive training CSVs, and
-precomputed retrieval JSONL outputs for TripAdvisor and BeerAdvocate. See
+This Figshare package includes the released retriever code, retriever
+checkpoints, tokenizer files, pseudo knowledge bases (`kb.jsonl`), contrastive
+training CSVs, precomputed retrieval JSONL outputs for TripAdvisor and
+BeerAdvocate, and the TripAdvisor KASM Lightning checkpoint. See
 `FIGSHARE_ASSETS.md` for the asset inventory and data formats.
 
-To download through the Figshare API and verify MD5 checksums:
+To download the private-share bundle through Figshare's downloader:
 
 ```bash
 cd /path/to/kasm-demo
 python retriever/scripts/download_figshare_assets.py \
-  --output retriever/assets/figshare_32970428 \
+  --private-release \
+  --output /path/to/figshare_kasm_private_32988389 \
   --link
 ```
 
@@ -32,7 +35,7 @@ Then link the downloaded assets into this repo:
 
 ```bash
 cd /path/to/kasm-demo
-bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever_32970428
+bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_private_32988389/organized
 ```
 
 Expected linked layout:
@@ -55,6 +58,25 @@ retriever/assets/
 
 `link_figshare_assets.sh` accepts either the raw download directory containing
 `organized/` or the `organized/` directory itself.
+
+The released KASM model checkpoint is organized separately from retriever
+assets:
+
+```text
+/path/to/figshare_kasm_private_32988389/organized/checkpoints/
+  trip_advisor_kasm_checkpoint/
+    trip_advisor_kasm_epoch14_step101640.ckpt
+    .hydra/config.yaml
+    lightning_logs/version_0/hparams.yaml
+```
+
+Evaluate it with:
+
+```bash
+cd /path/to/kasm-demo/experiment
+CKPT=/path/to/figshare_kasm_private_32988389/organized/checkpoints/trip_advisor_kasm_checkpoint/trip_advisor_kasm_epoch14_step101640.ckpt \
+  bash scripts/evaluate_tripadvisor_checkpoint.sh
+```
 
 ## Generate Retrieval JSONL
 
@@ -130,6 +152,8 @@ The contrastive CSV uses relation types `ST`, `SO`, `TT`, `TO`, and `OO`.
 - `src/kb_build.py`: converts prompt-generated trigger/opinion records into `kb.jsonl`.
 - `scripts/download_figshare_assets.py`: downloads, verifies, and organizes released Figshare assets.
 
-The uploader's raw command note contained a local Windows path and is not
-included in this repository. The runnable commands above replace it with
-repo-relative paths.
+The older public DOI package `https://doi.org/10.6084/m9.figshare.32970428`
+contains retriever assets only. The private-share bundle above is preferred
+because it also includes the KASM checkpoint. The uploader's raw command note
+contained a local Windows path and is not included in this repository. The
+runnable commands above replace it with repo-relative paths.

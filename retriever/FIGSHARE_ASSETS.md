@@ -1,13 +1,15 @@
 # Figshare Retriever Assets
 
-Retriever assets are released separately on Figshare:
+KASM assets are released separately on Figshare:
 
-- DOI: https://doi.org/10.6084/m9.figshare.32970428
-- Article page: https://figshare.com/articles/conference_contribution/KASM_Retriever/32970428
+- Current private-share bundle: https://figshare.com/s/132e83cda32c9b18aca7
+- Article id used by the downloader: `32988389`
+- Legacy retriever-only DOI: https://doi.org/10.6084/m9.figshare.32970428
 
-The Figshare package contains the retriever checkpoints, pseudo knowledge bases,
-contrastive training data, tokenizer files, and precomputed retrieval outputs
-used by KASM. These files are intentionally not committed to git.
+The current Figshare package contains the retriever source snapshot, retriever
+checkpoints, pseudo knowledge bases, contrastive training data, tokenizer files,
+precomputed retrieval outputs, and the TripAdvisor KASM Lightning checkpoint.
+These files are intentionally not committed to git.
 
 ## What The Package Contains
 
@@ -18,6 +20,8 @@ TripAdvisor assets:
 - `new_mixed_constrative_triplets_balanced.csv`: contrastive retriever training pairs.
 - `best_model.pt` plus `tokenizer/`: trained ColBERT-style retriever checkpoint.
 - `train/dev/test_Faiss_matches_by_trigger_confidence.jsonl`: precomputed sentence-level retrieval outputs.
+- `trip_advisor_kasm_checkpoint/`: released Lightning checkpoint and sanitized
+  Hydra/Lightning config for the TripAdvisor KASM model.
 
 BeerAdvocate assets:
 
@@ -54,21 +58,29 @@ retriever/assets/
     train_Faiss_matches_by_trigger.jsonl
     dev_Faiss_matches_by_trigger.jsonl
     test_Faiss_matches_by_trigger.jsonl
+  checkpoints/
+    trip_advisor_kasm_checkpoint/
+      trip_advisor_kasm_epoch14_step101640.ckpt
 ```
 
 If the package has already been downloaded elsewhere:
 
 ```bash
-bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever_32970428
+bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_private_32988389/organized
 ```
 
-To download it from Figshare with checksum verification:
+To download the current private-share bundle:
 
 ```bash
 python retriever/scripts/download_figshare_assets.py \
-  --output retriever/assets/figshare_32970428 \
+  --private-release \
+  --output /path/to/figshare_kasm_private_32988389 \
   --link
 ```
+
+The legacy public DOI can still be downloaded through the Figshare API by
+omitting `--private-release`, but that package does not include the KASM
+checkpoint.
 
 Then link precomputed retrieval outputs into the KASM experiment data directory:
 

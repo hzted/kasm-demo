@@ -25,8 +25,8 @@ KASM follows the paper pipeline:
 - `retriever/`: relation-aware ColBERT retriever code that produces the JSONL knowledge files consumed by `experiment/`.
 
 Large dataset, retriever, and checkpoint files are not committed. Place CSV
-tables under `experiment/dataset/`, and link/download retriever assets before
-training.
+tables under `experiment/dataset/`, and download/link the released Figshare
+assets before training or evaluation.
 
 ## Setup
 
@@ -40,13 +40,14 @@ following the official selector, then run the command above.
 ## Quick Start With Released Assets
 
 ```bash
-# 1. Download the Figshare retriever assets, then link them.
+# 1. Download the released Figshare bundle, then link retriever assets.
 python retriever/scripts/download_figshare_assets.py \
-  --output retriever/assets/figshare_32970428 \
+  --private-release \
+  --output /path/to/figshare_kasm_private_32988389 \
   --link
 
 # If already downloaded elsewhere, link that directory instead:
-# bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever_32970428
+# bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_private_32988389/organized
 
 # 2. Link precomputed retrieval JSONL into experiment/dataset/.
 bash retriever/scripts/install_precomputed_jsonl.sh all
@@ -56,8 +57,9 @@ cd experiment
 bash scripts/train.sh
 DATA_NAME=beer_advocate bash scripts/train.sh
 
-# 4. Evaluate a released KASM checkpoint.
-CKPT=/path/to/checkpoint.ckpt bash scripts/evaluate_tripadvisor_checkpoint.sh
+# 4. Evaluate the released TripAdvisor KASM checkpoint.
+CKPT=/path/to/figshare_kasm_private_32988389/organized/checkpoints/trip_advisor_kasm_checkpoint/trip_advisor_kasm_epoch14_step101640.ckpt \
+  bash scripts/evaluate_tripadvisor_checkpoint.sh
 ```
 
 To regenerate retrieval outputs instead of using the precomputed JSONL, run from
