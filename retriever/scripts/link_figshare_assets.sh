@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 TARGET="${ROOT}/retriever/assets"
 
 if [ "$#" -ne 1 ]; then
-  echo "Usage: bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever_32970428[/organized]" >&2
+  echo "Usage: bash retriever/scripts/link_figshare_assets.sh /path/to/kasm_release[/organized]" >&2
   exit 2
 fi
 

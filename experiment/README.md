@@ -150,7 +150,7 @@ released Figshare files:
 
 ```bash
 cd ..
-bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_private_32988389/organized
+bash retriever/scripts/link_figshare_assets.sh /path/to/kasm_release/organized
 bash retriever/scripts/install_released_data.sh all
 cd experiment
 python scripts/validate_release_data.py

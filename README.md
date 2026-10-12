@@ -41,8 +41,7 @@ and link the retriever assets into this repository:
 
 ```bash
 python retriever/scripts/download_figshare_assets.py \
-  --private-release \
-  --output /path/to/figshare_kasm_private_32988389 \
+  --output /path/to/kasm_release \
   --link
 ```
 
@@ -60,12 +59,11 @@ following the official selector, then run the command above.
 ```bash
 # 1. Download the released Figshare bundle, then link retriever assets.
 python retriever/scripts/download_figshare_assets.py \
-  --private-release \
-  --output /path/to/figshare_kasm_private_32988389 \
+  --output /path/to/kasm_release \
   --link
 
 # If already downloaded elsewhere, link that directory instead:
-# bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_private_32988389/organized
+# bash retriever/scripts/link_figshare_assets.sh /path/to/kasm_release/organized
 
 # 2. Link released CSV tables and precomputed retrieval JSONL into experiment/dataset/.
 bash retriever/scripts/install_released_data.sh all
@@ -79,7 +77,7 @@ bash scripts/train.sh
 DATA_NAME=beer_advocate bash scripts/train.sh
 
 # 5. Evaluate the released TripAdvisor KASM checkpoint.
-CKPT=/path/to/figshare_kasm_private_32988389/organized/checkpoints/trip_advisor_kasm_checkpoint/trip_advisor_kasm_epoch14_step101640.ckpt \
+CKPT=/path/to/kasm_release/organized/checkpoints/trip_advisor_kasm_checkpoint/trip_advisor_kasm_epoch14_step101640.ckpt \
   bash scripts/evaluate_tripadvisor_checkpoint.sh
 ```
 

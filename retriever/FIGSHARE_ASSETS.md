@@ -3,8 +3,6 @@
 KASM assets are released separately on Figshare:
 
 - Current private-share bundle: https://figshare.com/s/132e83cda32c9b18aca7
-- Article id used by the downloader: `32988389`
-- Legacy retriever-only DOI: https://doi.org/10.6084/m9.figshare.32970428
 
 The current Figshare package contains the retriever source snapshot, retriever
 checkpoints, pseudo knowledge bases, contrastive training data, tokenizer files,
@@ -88,21 +86,16 @@ retriever/assets/
 If the package has already been downloaded elsewhere:
 
 ```bash
-bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_private_32988389/organized
+bash retriever/scripts/link_figshare_assets.sh /path/to/kasm_release/organized
 ```
 
 To download the current private-share bundle:
 
 ```bash
 python retriever/scripts/download_figshare_assets.py \
-  --private-release \
-  --output /path/to/figshare_kasm_private_32988389 \
+  --output /path/to/kasm_release \
   --link
 ```
-
-The legacy public DOI can still be downloaded through the Figshare API by
-omitting `--private-release`, but that package does not include the KASM
-checkpoint.
 
 Then link precomputed retrieval outputs into the KASM experiment data directory:
 

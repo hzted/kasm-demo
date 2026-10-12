@@ -26,8 +26,7 @@ To download the private-share bundle through Figshare's downloader:
 ```bash
 cd /path/to/kasm-demo
 python retriever/scripts/download_figshare_assets.py \
-  --private-release \
-  --output /path/to/figshare_kasm_private_32988389 \
+  --output /path/to/kasm_release \
   --link
 ```
 
@@ -35,7 +34,7 @@ Then link the downloaded assets into this repo:
 
 ```bash
 cd /path/to/kasm-demo
-bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_private_32988389/organized
+bash retriever/scripts/link_figshare_assets.sh /path/to/kasm_release/organized
 ```
 
 Expected linked layout:
@@ -72,7 +71,7 @@ The released KASM model checkpoint is organized separately from retriever
 assets:
 
 ```text
-/path/to/figshare_kasm_private_32988389/organized/checkpoints/
+/path/to/kasm_release/organized/checkpoints/
   trip_advisor_kasm_checkpoint/
     trip_advisor_kasm_epoch14_step101640.ckpt
     .hydra/config.yaml
@@ -83,7 +82,7 @@ Evaluate it with:
 
 ```bash
 cd /path/to/kasm-demo/experiment
-CKPT=/path/to/figshare_kasm_private_32988389/organized/checkpoints/trip_advisor_kasm_checkpoint/trip_advisor_kasm_epoch14_step101640.ckpt \
+CKPT=/path/to/kasm_release/organized/checkpoints/trip_advisor_kasm_checkpoint/trip_advisor_kasm_epoch14_step101640.ckpt \
   bash scripts/evaluate_tripadvisor_checkpoint.sh
 ```
 
@@ -166,10 +165,5 @@ The contrastive CSV uses relation types `ST`, `SO`, `TT`, `TO`, and `OO`.
 - `src/faiss_colbert_confidence.py`: retrieval/inference pipeline.
 - `src/train_colbert_contrastive_inbatch_aux.py`: contrastive ColBERT retriever training.
 - `src/kb_build.py`: converts prompt-generated trigger/opinion records into `kb.jsonl`.
-- `scripts/download_figshare_assets.py`: downloads, verifies, and organizes released Figshare assets.
-
-The older public DOI package `https://doi.org/10.6084/m9.figshare.32970428`
-contains retriever assets only. The private-share bundle above is preferred
-because it also includes the KASM checkpoint. The uploader's raw command note
-contained a local Windows path and is not included in this repository. The
-runnable commands above replace it with repo-relative paths.
+- `scripts/download_figshare_assets.py`: downloads and organizes the anonymous
+  Figshare release.

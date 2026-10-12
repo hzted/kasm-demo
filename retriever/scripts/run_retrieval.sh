@@ -31,7 +31,7 @@ for required in "${ASSET_DIR}/kb.jsonl" "${ASSET_DIR}/best_model.pt" "${ASSET_DI
   if [ ! -e "${required}" ]; then
     echo "Missing required file: ${required}" >&2
     echo "If assets are not linked yet, run:" >&2
-    echo "  bash retriever/scripts/link_figshare_assets.sh /path/to/figshare_kasm_retriever_32970428" >&2
+    echo "  bash retriever/scripts/link_figshare_assets.sh /path/to/kasm_release" >&2
     exit 1
   fi
 done
