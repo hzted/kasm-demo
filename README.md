@@ -1,21 +1,43 @@
-# KASM Demo
+# KASM: Learning Sentiment Dynamics
 
-This repository contains the KASM project demo and its runnable experiment code.
+**Knowledge-Augmented Sequence Modeling for Document-Level Aspect-Based Sentiment Analysis**
+
+KASM predicts one sentiment polarity for each labeled document–aspect pair.
+It connects review sentences to aspect–trigger–opinion–polarity (ATOP)
+knowledge and integrates local evidence through a polarity sequence model.
+The framework is studied on BeerAdvocate and TripAdvisor.
+
+[Anonymous project page](https://anonymous.4open.science/w/kasm-source/)
+
+This repository contains a static project page (`index.html`) and the released
+experiment and retrieval code. The page illustrates the method; it does not
+run inference in the browser.
 
 ## Method Flow
 
-KASM follows the paper pipeline:
+1. **Construct ATOP knowledge.** LLM extraction links aspect categories to
+   textual triggers, opinion spans, and local polarities in training reviews.
+   The normalized records form `kb.jsonl`. Precomputed KB artifacts let users
+   start without rerunning extraction; `prompt_generation/` currently contains
+   preprocessing code and a placeholder for the extraction prompt.
+2. **Retrieve sentence evidence.** Relation-aware contrastive training covers
+   sentence–trigger, sentence–opinion, trigger–trigger, trigger–opinion, and
+   opinion–opinion relations. Retrieval supplies sentence-level polarity and
+   confidence alongside readable evidence paths.
+3. **Model the polarity sequence.** FLAN-T5 sentence encoding, learned sentence
+   positions, and DART-style global interaction provide document context.
+   Confidence-guided decoding uses a retrieved polarity above the feedback
+   threshold and predicted polarity otherwise, during both training and inference.
+4. **Aggregate and classify.** The final decoder state queries sentence
+   representations; a confidence prior adjusts attention logits before pooling.
+   Document cross-entropy and an auxiliary confidence-weighted SmoothL1 sequence
+   loss train the model. Mixed local opinions still yield one final polarity
+   for each target aspect.
 
-1. Prompt generation extracts aspect-conditioned triggers, opinions, and
-   polarities from reviews. The prompt template will live under
-   `prompt_generation/`.
-2. The extracted records are normalized into a trigger-opinion knowledge base
-   (`kb.jsonl`). Pseudo labels are an intermediate artifact of this step and are
-   not required to run the released code.
-3. The retriever is trained with contrastive learning over sentence-to-KB and
-   KB-to-KB relations, then retrieves sentence-level evidence for each document.
-4. The KASM model consumes the review CSV plus retrieved JSONL evidence and uses
-   pseudo-label-aware sequence modeling for long-document aspect sentiment.
+The manuscript uses a feedback threshold of 0.50, sequence-loss weight 1,
+and confidence-prior weight 1. Retrieval acceptance and decoder feedback are
+separate decisions. See `experiment/README.md` for released configuration
+settings and `retriever/README.md` for retrieval details.
 
 ## Modules
 

@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KASM Demo Website</title>
+  <title>KASM — Learning Sentiment Dynamics</title>
+  <meta name="description" content="Knowledge-Augmented Sequence Modeling for document-level aspect sentiment: ATOP evidence retrieval, confidence-guided decoding, and evidence aggregation." />
   <style>
     :root {
       --text: #222;
@@ -205,6 +206,8 @@
       font-size: 13px;
     }
 
+    figure { margin: 16px 0; }
+
     .figure-img {
       width: 100%;
       max-width: 100%;
@@ -266,15 +269,16 @@
         </p>
       </div>
 
-      <p class="authors">Anonymous Writers</p>
+      <p class="authors">Anonymous submission · Research overview and code resources</p>
 
       <div class="links">
         <a href="#abstract">Abstract</a>
         <a href="#motivation">Motivation</a>
         <a href="#method">Method</a>
-        <a href="#results">Results</a>
+        <a href="#results">Evaluation</a>
         <a href="#cases">Case Study</a>
-        <a href="https://anonymous.4open.science/r/kasm-demo-F63B/" target="_blank" rel="noopener noreferrer">Code</a>
+        <a href="README.md">Code &amp; Setup</a>
+        <a href="https://anonymous.4open.science/w/kasm-source/" target="_blank" rel="noopener noreferrer">Project Page</a>
       </div>
 
     </header>
@@ -290,9 +294,9 @@
         Classification. KASM constructs aspect-conditioned knowledge tuples with LLMs, grounds review fragments through
         relation-aware contrastive retrieval, and integrates the retrieved evidence into sequence modeling for
         discourse-level sentiment prediction.
-        Experiments on BeerAdvocate and TripAdvisor show that KASM performs strongly on long-document settings while
-        producing interpretable evidence paths. Qualitative analysis further shows that KASM can ground implicit aspects,
-        aggregate distributed evidence, disambiguate mixed opinions, and distinguish semantically related aspects.
+        The framework is studied on BeerAdvocate and TripAdvisor. Its retrieved evidence paths provide readable
+        associations between aspect cues, opinion phrases, and local polarities. The case studies illustrate
+        implicit aspect grounding, distributed evidence, and conflicting opinions within the same review.
       </p>
     </section>
 
@@ -330,186 +334,74 @@
         <div class="card">
           <h3>1. Knowledge Construction</h3>
           <p>
-            Use an LLM to extract aspect-trigger-opinion tuples from raw reviews, inspired by recent work on
-            instruction-tuned language models <a href="#ref-chung2024">[6]</a> and implicit sentiment reasoning
-            <a href="#ref-fei2023">[5]</a>.
+            Extract aspect–trigger–opinion–polarity (ATOP) tuples from training reviews. Each tuple connects an
+            aspect to a textual trigger, opinion span(s), and local polarity. Local opinions may disagree with
+            the overall document-level sentiment.
           </p>
         </div>
 
         <div class="card">
           <h3>2. Evidence Retrieval</h3>
           <p>
-            Train a relation-aware retriever to match review fragments with aspect triggers and opinion phrases,
-            following the motivation of retrieval-based example ranking for ABSA
-            <a href="#ref-zheng2024">[7]</a>.
+            Train a ColBERT-style retriever with sentence–trigger, sentence–opinion, trigger–trigger,
+            trigger–opinion, and opinion–opinion relations. Retrieve an aspect-conditioned evidence path
+            for each sentence, together with its polarity and confidence.
           </p>
         </div>
 
         <div class="card">
           <h3>3. Sentiment Dynamics</h3>
           <p>
-            Use pseudo-label guided sequence modeling to capture how sentence-level evidence evolves across a long
-            document, extending prior document-level multi-aspect sentiment modeling
-            <a href="#ref-yin2017">[1]</a>, <a href="#ref-ji2020">[2]</a>.
+            Encode sentences with FLAN-T5 and DART-style global interaction. Decode a polarity sequence using
+            confidence-guided feedback, then use the final decoder state to attend over sentence evidence
+            for one document-level prediction per target aspect.
           </p>
         </div>
       </div>
     </section>
 
-    <section id="results">
-      <h2>Main Results</h2>
-      <p>
-        The table below compares KASM with representative document-level ABSA and instruction-based baselines,
-        including DART <a href="#ref-yan2024">[8]</a>, InstructABSA
-        <a href="#ref-scaria2024">[4]</a>, GPT-5.5 few-shot prompting
-        <a href="#ref-openai2026">[9]</a>, and Retrieval-IT
-        <a href="#ref-zheng2024">[7]</a>. Results are reported on the full test set and on long documents over
-        512 tokens.
-      </p>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th rowspan="2">Category</th>
-              <th rowspan="2">Model</th>
-              <th colspan="4">BeerAdvocate</th>
-              <th colspan="4">TripAdvisor</th>
-            </tr>
-            <tr>
-              <th>All Acc</th>
-              <th>All F1</th>
-              <th>&gt;512 Acc</th>
-              <th>&gt;512 F1</th>
-              <th>All Acc</th>
-              <th>All F1</th>
-              <th>&gt;512 Acc</th>
-              <th>&gt;512 F1</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Task-specific</td>
-              <td>D-MILN</td>
-              <td>79.86</td>
-              <td>80.12</td>
-              <td>87.85</td>
-              <td>86.09</td>
-              <td>79.52</td>
-              <td>79.03</td>
-              <td>83.61</td>
-              <td>83.13</td>
-            </tr>
-            <tr>
-              <td>Doc-level ABSA</td>
-              <td>AB-DMSC</td>
-              <td>85.98</td>
-              <td>85.21</td>
-              <td>88.14</td>
-              <td>86.59</td>
-              <td>81.26</td>
-              <td>80.46</td>
-              <td>84.04</td>
-              <td>83.44</td>
-            </tr>
-            <tr>
-              <td>Baselines</td>
-              <td>DART <a href="#ref-yan2024">[8]</a></td>
-              <td>88.25</td>
-              <td>87.33</td>
-              <td><strong>94.44</strong></td>
-              <td><strong>92.86</strong></td>
-              <td>86.38</td>
-              <td>85.79</td>
-              <td>86.48</td>
-              <td>85.96</td>
-            </tr>
-            <tr>
-              <td>Prompt-based</td>
-              <td>InstructABSA <a href="#ref-scaria2024">[4]</a></td>
-              <td><strong>88.67</strong></td>
-              <td>87.97</td>
-              <td>81.25</td>
-              <td>79.83</td>
-              <td>80.26</td>
-              <td>81.71</td>
-              <td>70.01</td>
-              <td>69.65</td>
-            </tr>
-            <tr>
-              <td>Fine-tuning</td>
-              <td>THOR</td>
-              <td>79.85</td>
-              <td>78.63</td>
-              <td>75.49</td>
-              <td>76.15</td>
-              <td>79.83</td>
-              <td>78.45</td>
-              <td>80.06</td>
-              <td>79.43</td>
-            </tr>
-            <tr>
-              <td>Direct LLM prompting</td>
-              <td>GPT5.5-zeroshot</td>
-              <td>86.15</td>
-              <td>87.08</td>
-              <td>84.23</td>
-              <td>83.97</td>
-              <td>75.73</td>
-              <td>76.98</td>
-              <td>80.43</td>
-              <td>82.44</td>
-            </tr>
-            <tr>
-              <td>Direct LLM prompting</td>
-              <td>GPT5.5-fewshot <a href="#ref-openai2026">[9]</a></td>
-              <td>86.45</td>
-              <td>87.31</td>
-              <td>85.56</td>
-              <td>84.15</td>
-              <td>79.92</td>
-              <td>80.35</td>
-              <td>79.68</td>
-              <td>80.12</td>
-            </tr>
-            <tr>
-              <td>Knowledge-enhanced</td>
-              <td>Retrieval-IT <a href="#ref-zheng2024">[7]</a></td>
-              <td>77.12</td>
-              <td>78.32</td>
-              <td>80.54</td>
-              <td>82.35</td>
-              <td>68.21</td>
-              <td>67.05</td>
-              <td>63.27</td>
-              <td>60.47</td>
-            </tr>
-            <tr>
-              <td>Knowledge-enhanced</td>
-              <td><strong>KASM</strong></td>
-              <td>88.36</td>
-              <td><strong>88.53</strong></td>
-              <td>90.31</td>
-              <td>89.26</td>
-              <td><strong>87.84</strong></td>
-              <td><strong>87.11</strong></td>
-              <td><strong>87.14</strong></td>
-              <td><strong>86.52</strong></td>
-            </tr>
-          </tbody>
-        </table>
+    <section id="model-details">
+      <h2>How Retrieved Evidence Enters KASM</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>Polarity feedback</h3>
+          <p>At both training and inference, a retrieved polarity supplies the next decoder input when
+          confidence exceeds 0.50. Otherwise, the model feeds back its own predicted polarity.
+          Learned sentence-position embeddings preserve document order before global interaction.</p>
+        </div>
+        <div class="card">
+          <h3>Auxiliary supervision</h3>
+          <p>Document-level cross-entropy trains the final classifier. A confidence-weighted SmoothL1
+          sequence loss supervises intermediate polarity estimates at valid sentence positions with
+          positive retrieval confidence. The sequence-loss coefficient is 1.</p>
+        </div>
+        <div class="card">
+          <h3>Confidence prior</h3>
+          <p>The final decoder state queries the contextualized sentence representations. Retrieval
+          confidence adds a prior to attention logits with weight 1 before softmax. Unmatched sentences
+          remain available to attention; padding is masked out.</p>
+        </div>
       </div>
+      <p class="note">These are distinct uses of retrieval: feedback selects a decoder input,
+      sequence loss supplies a training target, and the confidence prior adjusts evidence weights.</p>
+    </section>
 
-      <p class="note">
-        Table 3: comparison on the full test set (All) and on long documents (&gt;512 tokens).
-      </p>
+    <section id="results">
+      <h2>Evaluation Scope</h2>
+      <p>KASM addresses binary document-level Aspect Category Sentiment Classification on
+      BeerAdvocate (four aspects) and TripAdvisor (seven aspects). Each labeled document–aspect pair
+      receives one negative or positive prediction, even when its supporting sentences contain mixed opinions.</p>
+      <p>Evaluation covers the full test set and documents containing more than 512 tokens before
+      model input truncation. The manuscript defines this subset using the FLAN-T5 tokenizer.
+      Accuracy and macro-F1 summarize predictions over labeled document–aspect pairs.</p>
+      <p class="note">This page presents the method and qualitative examples. Numerical benchmark
+      tables are not included in this website revision.</p>
     </section>
 
     <section id="cases">
       <h2>Qualitative Case Study</h2>
       <p>
-        KASM produces explicit evidence paths that help explain why a document is assigned a particular aspect-level
-        sentiment. This is especially useful for implicit aspect grounding, cross-sentence aggregation, and
+        KASM exposes retrieved evidence paths for inspecting aspect-level predictions. This is especially useful for implicit aspect grounding, cross-sentence aggregation, and
         mixed-opinion disambiguation, which are common challenges in document-level multi-aspect sentiment analysis
         <a href="#ref-yin2017">[1]</a>, <a href="#ref-ji2020">[2]</a>.
       </p>
@@ -521,6 +413,9 @@
           and related-aspect distinction.
         </figcaption>
       </figure>
+
+      <p class="note">Retrieved evidence and attention weights are inspection aids, not measurements of
+      causal contribution. The figures are illustrative examples, not a live inference interface.</p>
 
       <div class="grid">
         <div class="card">
@@ -543,8 +438,9 @@
         <div class="card">
           <h3>Mixed Opinions</h3>
           <p>
-            Separating conflicting sentiment cues instead of collapsing the whole review into one polarity, which helps
-            preserve aspect-specific sentiment distinctions <a href="#ref-chen2020">[3]</a>.
+            A review can praise some details and criticize others within the same aspect. Retrieved tuples retain
+            these local polarities; the document classifier produces a single final polarity for that aspect.
+            Tuple counts alone do not define the prediction.
           </p>
         </div>
       </div>
@@ -626,13 +522,8 @@
           23–34.
         </li>
 
-        <li id="ref-openai2026">
-          OpenAI. (2026).
-          GPT-5.5 system card.
-          OpenAI Technical Report. Accessed May 24, 2026.
-        </li>
 
-        <li id="ref-zeng2019">
+        <li id="ref-zeng2019" value="10">
           Zeng, Z., Zhou, W., Liu, X., & Song, Y. (2019).
           A variational approach to weakly supervised document-level multi-aspect sentiment classification.
           <em>Proceedings of NAACL-HLT</em>, 386–396.
@@ -647,7 +538,7 @@
     </section>
 
     <footer>
-      Demo website for KASM. This page is for research presentation purposes only.
+      KASM · Knowledge-Augmented Sequence Modeling. Static research overview; runnable code is provided separately.
     </footer>
   </div>
 </body>

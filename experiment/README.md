@@ -1,6 +1,6 @@
 # KASM
 
-Knowledge-Aware Sentiment Modeling (KASM) is the main model in this repository.
+Knowledge-Augmented Sequence Modeling (KASM) is the main model in this repository.
 The codebase is cleaned from the old DART workspace: KASM is the default and only
 first-class training path, while legacy DART code is kept separately under
 `baselines/dart/` as an archived baseline reference.
@@ -66,20 +66,13 @@ The default KASM configuration follows the TripAdvisor KASM run used in our expe
 Checkpoints are not bundled in this anonymous code repository. Place a checkpoint
 under `checkpoints/` or pass its path through `CKPT=/path/to/checkpoint.ckpt`.
 
-Reported comparison results follow the paper table. Values are percentages on
-the full test set (`All`) and the long-document subset (`>512` tokens).
+## Evaluation outputs
 
-| Category | Model | Beer All Acc | Beer All F1 | Beer >512 Acc | Beer >512 F1 | Trip All Acc | Trip All F1 | Trip >512 Acc | Trip >512 F1 |
-|---|---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Task-specific | D-MILN | 79.86 | 80.12 | 87.85 | 86.09 | 79.52 | 79.03 | 83.61 | 83.13 |
-| Doc-level ABSA | AB-DMSC | 85.98 | 85.21 | 88.14 | 86.59 | 81.26 | 80.46 | 84.04 | 83.44 |
-| Baselines | DART | 88.25 | 87.33 | **94.44** | **92.86** | 86.38 | 85.79 | 86.48 | 85.96 |
-| Prompt-based | InstructABSA | **88.67** | 87.97 | 81.25 | 79.83 | 80.26 | 81.71 | 70.01 | 69.65 |
-| Fine-tuning | THOR | 79.85 | 78.63 | 75.49 | 76.15 | 79.83 | 78.45 | 80.06 | 79.43 |
-| Direct LLM prompting | GPT5.5-zeroshot | 86.15 | 87.08 | 84.23 | 83.97 | 75.73 | 76.98 | 80.43 | 82.44 |
-| Direct LLM prompting | GPT5.5-fewshot | 86.45 | 87.31 | 85.56 | 84.15 | 79.92 | 80.35 | 79.68 | 80.12 |
-| Knowledge-enhanced | Retrieval-IT | 77.12 | 78.32 | 80.54 | 82.35 | 68.21 | 67.05 | 63.27 | 60.47 |
-| Knowledge-enhanced | **KASM** | 88.36 | **88.53** | 90.31 | 89.26 | **87.84** | **87.11** | **87.14** | **86.52** |
+Evaluate labeled document–aspect pairs using accuracy and binary macro-F1.
+The manuscript defines long documents as having more than 512 FLAN-T5 tokens
+before model input truncation. Numerical comparison tables are not included in
+this documentation revision. Preserve the prediction files and the checkpoint
+identity when reporting an evaluation.
 
 ## Setup
 
