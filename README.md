@@ -7,7 +7,8 @@ It connects review sentences to aspect–trigger–opinion–polarity (ATOP)
 knowledge and integrates local evidence through a polarity sequence model.
 The framework is studied on BeerAdvocate and TripAdvisor.
 
-[Anonymous project page](https://anonymous.4open.science/w/kasm-source/)
+[Anonymous project page](https://anonymous.4open.science/w/kasm-source/) ·
+[Browse source code](https://anonymous.4open.science/r/kasm-source/)
 
 This repository contains a static project page (`index.html`) and the released
 experiment and retrieval code. The page illustrates the method; it does not
@@ -42,9 +43,9 @@ settings and `retriever/README.md` for retrieval details.
 ## Modules
 
 - `index.html` and `assets/`: project demo page and figures.
-- `experiment/`: model training, data input pipeline, and evaluation code.
+- [experiment/](https://anonymous.4open.science/r/kasm-source/experiment/): model training, data input pipeline, and evaluation code.
 - `prompt_generation/`: prompt template placeholder for knowledge extraction.
-- `retriever/`: relation-aware ColBERT retriever code that produces the JSONL knowledge files consumed by `experiment/`.
+- [retriever/](https://anonymous.4open.science/r/kasm-source/retriever/): relation-aware ColBERT retriever code that produces the JSONL knowledge files consumed by `experiment/`.
 
 Large dataset, retriever, and checkpoint files are not committed. Place CSV
 tables under `experiment/dataset/`, and download/link the released Figshare
