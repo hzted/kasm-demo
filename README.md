@@ -8,7 +8,7 @@ knowledge and integrates local evidence through a polarity sequence model.
 The framework is studied on BeerAdvocate and TripAdvisor.
 
 [Anonymous project page](https://anonymous.4open.science/w/kasm-source/) ·
-[Browse source code](https://anonymous.4open.science/r/kasm-source/)
+[Browse source code](https://anonymous.4open.science/r/kasm-source/README.md)
 
 This repository contains a static project page (`index.html`) and the released
 experiment and retrieval code. The page illustrates the method; it does not
