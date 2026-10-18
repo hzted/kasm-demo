@@ -1,0 +1,117 @@
+{
+  "source_document": "EMNLP_KASM.pdf",
+  "source_sha256": "a61f665e7dd2b3f1cc2d7ac448f83aeddda5df12c7bad9c4fde49bc06c95c3a5",
+  "method": "PDF page clips rendered at 4x; figures and table content not redrawn",
+  "figures": [
+    {
+      "name": "evidence_matching",
+      "source": "Figure 1",
+      "page": 1,
+      "clip": [
+        304,
+        220,
+        526,
+        362
+      ]
+    },
+    {
+      "name": "kasm_pipeline",
+      "source": "Figure 2",
+      "page": 3,
+      "clip": [
+        69,
+        69,
+        526,
+        256
+      ]
+    },
+    {
+      "name": "error_analysis",
+      "source": "Figure 3",
+      "page": 8,
+      "clip": [
+        70,
+        370,
+        290,
+        483
+      ]
+    },
+    {
+      "name": "case_study",
+      "source": "Figure 4",
+      "page": 23,
+      "clip": [
+        69,
+        69,
+        526,
+        349
+      ]
+    },
+    {
+      "name": "case_implicit_aspect",
+      "source": "Figure 4, upper left",
+      "page": 23,
+      "clip": [
+        70,
+        70,
+        298,
+        171
+      ]
+    },
+    {
+      "name": "case_related_aspects",
+      "source": "Figure 4, upper right",
+      "page": 23,
+      "clip": [
+        297,
+        70,
+        526,
+        167
+      ]
+    },
+    {
+      "name": "case_mixed_opinions",
+      "source": "Figure 4, lower left",
+      "page": 23,
+      "clip": [
+        70,
+        184,
+        298,
+        320
+      ]
+    },
+    {
+      "name": "case_cross_sentence",
+      "source": "Figure 4, lower right",
+      "page": 23,
+      "clip": [
+        297,
+        184,
+        481,
+        347
+      ]
+    },
+    {
+      "name": "error_cases",
+      "source": "Table 19",
+      "page": 24,
+      "clip": [
+        69,
+        69,
+        526,
+        626
+      ]
+    },
+    {
+      "name": "sentence_evidence",
+      "source": "Table 20",
+      "page": 25,
+      "clip": [
+        69,
+        69,
+        526,
+        608
+      ]
+    }
+  ]
+}

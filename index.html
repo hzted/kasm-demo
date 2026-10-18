@@ -208,6 +208,13 @@
 
     figure { margin: 16px 0; }
 
+    caption { text-align: left; margin-bottom: 10px; color: var(--muted); }
+    tbody th { text-align: left; background: white; font-weight: 500; }
+    .ablation-table table { min-width: 580px; }
+    #error-analysis > figure { max-width: 760px; margin-left: auto; margin-right: auto; }
+    summary { cursor: pointer; color: var(--link); font-weight: 600; padding: 12px 0; }
+    .figure-grid { align-items: start; }
+
     .figure-img {
       width: 100%;
       max-width: 100%;
@@ -275,7 +282,8 @@
         <a href="#abstract">Abstract</a>
         <a href="#motivation">Motivation</a>
         <a href="#method">Method</a>
-        <a href="#results">Evaluation</a>
+        <a href="#results">Results</a>
+        <a href="#error-analysis">Error Analysis</a>
         <a href="#cases">Case Study</a>
         <a href="README.md">Code &amp; Setup</a>
         <a href="https://anonymous.4open.science/w/kasm-source/" target="_blank" rel="noopener noreferrer">Project Page</a>
@@ -326,7 +334,7 @@
       <figure>
         <img class="figure-img" src="assets/kasm_pipeline.png" alt="KASM pipeline" />
         <figcaption class="caption">
-          Figure 1: KASM pipeline: LLM-based knowledge construction, relation-aware retrieval, and sentiment sequence modeling.
+          Figure 2: KASM pipeline: LLM-based knowledge construction, relation-aware retrieval, and sentiment sequence modeling.
         </figcaption>
       </figure>
 
@@ -387,85 +395,104 @@
     </section>
 
     <section id="results">
-      <h2>Evaluation Scope</h2>
-      <p>KASM addresses binary document-level Aspect Category Sentiment Classification on
-      BeerAdvocate (four aspects) and TripAdvisor (seven aspects). Each labeled document–aspect pair
-      receives one negative or positive prediction, even when its supporting sentences contain mixed opinions.</p>
-      <p>Evaluation covers the full test set and documents containing more than 512 tokens before
-      model input truncation. The manuscript defines this subset using the FLAN-T5 tokenizer.
-      Accuracy and macro-F1 summarize predictions over labeled document–aspect pairs.</p>
-      <p class="note">This page presents the method and qualitative examples. Numerical benchmark
-      tables are not included in this website revision.</p>
+      <h2>Main Results</h2>
+      <p>Document-level aspect sentiment classification on BeerAdvocate and TripAdvisor.
+      Long documents contain more than 512 FLAN-T5 tokens before model input truncation.
+      Accuracy and macro-F1 are reported as percentages.</p>
+      <p class="note">Values and significance markers below are transcribed from Tables 3–4 of the manuscript (EMNLP_KASM.pdf, October 16, 2026); they are manuscript-reported results, not a new evaluation or independent verification performed for this website.</p>
+      <div class="table-wrap"><table>
+      <caption>Table 3. Full test sets and long-document subsets (manuscript-reported).</caption>
+      <thead><tr><th rowspan="3">Category</th><th rowspan="3">Model</th><th colspan="4">BeerAdvocate</th><th colspan="4">TripAdvisor</th></tr>
+      <tr><th colspan="2">All</th><th colspan="2">&gt;512</th><th colspan="2">All</th><th colspan="2">&gt;512</th></tr>
+      <tr><th>Acc</th><th>F1</th><th>Acc</th><th>F1</th><th>Acc</th><th>F1</th><th>Acc</th><th>F1</th></tr></thead><tbody>
+      <tr><td>Task-specific doc-level ABSA</td><th scope="row">D-MILN</th><td>72.59</td><td>70.67</td><td>68.40</td><td>65.54</td><td>73.16</td><td>72.95</td><td>71.82</td><td>71.71</td></tr>
+      <tr><td>Task-specific doc-level ABSA</td><th scope="row">AB-DMSC</th><td>84.56</td><td>81.77</td><td>88.21</td><td>83.04</td><td>80.80</td><td>80.16</td><td>79.10</td><td>79.05</td></tr>
+      <tr><td>Task-specific doc-level ABSA</td><th scope="row">DART</th><td>88.13</td><td>86.19</td><td>91.04</td><td>88.41</td><td>86.25</td><td>85.65</td><td>84.69</td><td>84.56</td></tr>
+      <tr><td>Prompt-based fine-tuning</td><th scope="row">InstructABSA</th><td>88.29</td><td>86.61</td><td>82.08</td><td>76.95</td><td>84.43</td><td>83.98</td><td>80.18</td><td>80.09</td></tr>
+      <tr><td>Prompt-based fine-tuning</td><th scope="row">THOR</th><td>88.45</td><td>87.07</td><td>90.09</td><td>87.61</td><td>86.60</td><td>86.06</td><td>82.63</td><td>82.46</td></tr>
+      <tr><td>Direct LLM prompting</td><th scope="row">GPT-5.5 zero-shot</th><td>85.50</td><td>84.04</td><td>88.68</td><td>86.57</td><td>75.01</td><td>74.71</td><td>83.88</td><td>83.86</td></tr>
+      <tr><td>Direct LLM prompting</td><th scope="row">GPT-5.5 few-shot</th><td>85.62</td><td>84.19</td><td>90.09</td><td>87.73</td><td>71.99</td><td>71.72</td><td>80.78</td><td>80.78</td></tr>
+      <tr><td>Knowledge-enhanced</td><th scope="row">Retrieval-IT</th><td>86.84</td><td>85.05</td><td>79.25</td><td>71.21</td><td>82.84</td><td>82.44</td><td>79.91</td><td>79.87</td></tr>
+      <tr><td>Knowledge-enhanced</td><th scope="row">KASM</th><td><strong>91.02<sup>†</sup></strong></td><td><strong>89.80<sup>†</sup></strong></td><td><strong>91.04</strong></td><td><strong>88.66</strong></td><td><strong>88.13<sup>†</sup></strong></td><td><strong>87.63<sup>†</sup></strong></td><td><strong>87.35<sup>†</sup></strong></td><td><strong>87.26<sup>†</sup></strong></td></tr>
+      </tbody></table></div>
+      <p class="note">† reproduces the manuscript’s significance annotation: comparison with the strongest baseline
+      in the same column, using a two-sided paired permutation test over reviews, 10,000 permutations,
+      and Holm-adjusted p &lt; 0.05 across eight comparisons. These tests have not been rerun for this page.</p>
+      <h3>Ablation Study</h3>
+      <div class="table-wrap ablation-table"><table>
+      <caption>Table 4. Ablations on the full test sets (manuscript-reported).</caption>
+      <thead><tr><th rowspan="2">Variant</th><th colspan="2">BeerAdvocate</th><th colspan="2">TripAdvisor</th></tr>
+      <tr><th>Acc</th><th>F1</th><th>Acc</th><th>F1</th></tr></thead><tbody>
+      <tr><th scope="row">KASM</th><td>91.02</td><td>89.80</td><td>88.13</td><td>87.63</td></tr>
+      <tr><th scope="row">w/ mean pooling</th><td>88.49</td><td>86.80</td><td>86.78</td><td>86.31</td></tr>
+      <tr><th scope="row">w/o sequence loss</th><td>88.97</td><td>87.19</td><td>86.19</td><td>85.67</td></tr>
+      <tr><th scope="row">w/o confidence prior</th><td>87.80</td><td>85.85</td><td>87.05</td><td>86.69</td></tr>
+      <tr><th scope="row">w/o pseudo guidance</th><td>88.70</td><td>87.02</td><td>86.72</td><td>86.22</td></tr>
+      <tr><th scope="row">w/o contrastive learning</th><td>85.99</td><td>83.73</td><td>84.99</td><td>84.62</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="error-analysis">
+      <h2>Evidence Grounding and Error Analysis</h2>
+      <p>The manuscript evaluates top-1 retrieved paths on 200 sampled reviews per dataset.
+      Figure 3 breaks down errors into opinion mismatch, sentiment spillover, KB overtransfer,
+      and token ambiguity, comparing retrievers with and without contrastive learning.</p>
+      <figure>
+        <a href="assets/error_analysis.png" target="_blank" rel="noopener noreferrer"><img class="figure-img" loading="lazy" src="assets/error_analysis.png" alt="Four stacked bars showing top-1 retrieval error rates: TripAdvisor without CL 44.31%, with CL 9.91%; BeerAdvocate without CL 35.97%, with CL 15.81%." /></a>
+        <figcaption class="caption">Figure 3. Retrieval error rates and error types; reproduced directly from the manuscript. <a href="assets/error_analysis.pdf">Vector PDF</a> · <a href="assets/error_analysis.png">Full-size image</a></figcaption>
+      </figure>
+
+      <details><summary>View all representative retrieval error cases (Table 19)</summary>
+      <figure>
+        <a href="assets/error_cases.png" target="_blank" rel="noopener noreferrer"><img class="figure-img" loading="lazy" src="assets/error_cases.png" alt="Table 19: original clauses, retrieved outputs, and explanations for invalid retrieval across both datasets." /></a>
+        <figcaption class="caption">Table 19. Representative retrieval errors. T/O denote trigger/opinion; red text marks problematic retrieved content. <a href="assets/error_cases.pdf">Vector PDF</a> · <a href="assets/error_cases.png">Full-size image</a></figcaption>
+      </figure>
+      </details>
     </section>
 
     <section id="cases">
       <h2>Qualitative Case Study</h2>
-      <p>
-        KASM exposes retrieved evidence paths for inspecting aspect-level predictions. This is especially useful for implicit aspect grounding, cross-sentence aggregation, and
-        mixed-opinion disambiguation, which are common challenges in document-level multi-aspect sentiment analysis
-        <a href="#ref-yin2017">[1]</a>, <a href="#ref-ji2020">[2]</a>.
-      </p>
-
+      <p>Figure 4 illustrates four kinds of evidence grounding. Each panel below is reproduced
+      from the latest manuscript. Click an image to inspect the original-sized version.</p>
+      <div class="figure-grid">
       <figure>
-        <img class="figure-img" src="assets/case_study.png" alt="KASM qualitative case study" />
-        <figcaption class="caption">
-          Figure 2: Examples of implicit aspect grounding, cross-sentence aggregation, mixed-opinion disambiguation,
-          and related-aspect distinction.
-        </figcaption>
+        <a href="assets/case_implicit_aspect.png" target="_blank" rel="noopener noreferrer"><img class="figure-img" loading="lazy" src="assets/case_implicit_aspect.png" alt="Figure 4: implicit service-aspect grounding through a valet example." /></a>
+        <figcaption class="caption">Figure 4(a). Implicit aspect grounding. <a href="assets/case_implicit_aspect.pdf">Vector PDF</a> · <a href="assets/case_implicit_aspect.png">Full-size image</a></figcaption>
+      </figure>
+      <figure>
+        <a href="assets/case_related_aspects.png" target="_blank" rel="noopener noreferrer"><img class="figure-img" loading="lazy" src="assets/case_related_aspects.png" alt="Figure 4: distinguishing room from check-in for a key-card failure." /></a>
+        <figcaption class="caption">Figure 4(b). Distinction between related aspects. <a href="assets/case_related_aspects.pdf">Vector PDF</a> · <a href="assets/case_related_aspects.png">Full-size image</a></figcaption>
+      </figure>
+      <figure>
+        <a href="assets/case_mixed_opinions.png" target="_blank" rel="noopener noreferrer"><img class="figure-img" loading="lazy" src="assets/case_mixed_opinions.png" alt="Figure 4: conflicting positive and negative service cues and retrieved opinions." /></a>
+        <figcaption class="caption">Figure 4(c). Polarity disambiguation under mixed opinions. <a href="assets/case_mixed_opinions.pdf">Vector PDF</a> · <a href="assets/case_mixed_opinions.png">Full-size image</a></figcaption>
+      </figure>
+      <figure>
+        <a href="assets/case_cross_sentence.png" target="_blank" rel="noopener noreferrer"><img class="figure-img" loading="lazy" src="assets/case_cross_sentence.png" alt="Figure 4: integrating advertised price and later charges across sentences." /></a>
+        <figcaption class="caption">Figure 4(d). Cross-sentence evidence aggregation. <a href="assets/case_cross_sentence.pdf">Vector PDF</a> · <a href="assets/case_cross_sentence.png">Full-size image</a></figcaption>
+      </figure>
+      </div>
+      <p class="note"><a href="assets/case_study.pdf">Download the complete Figure 4</a>.</p>
+      <h3>Sentence Evidence, Attention, and Contribution</h3>
+      <p>Table 20 traces every sentence of two correctly classified reviews:
+      BeerAdvocate <strong>test-995 / taste</strong> and TripAdvisor <strong>test-2323 / room</strong>.
+      It includes retrieved trigger, opinion, polarity, confidence, attention weight, and contribution.</p>
+      <figure>
+        <a href="assets/sentence_evidence.png" target="_blank" rel="noopener noreferrer"><img class="figure-img" loading="lazy" src="assets/sentence_evidence.png" alt="Table 20: sentence-level evidence and attention/contribution bars for BeerAdvocate test-995 taste and TripAdvisor test-2323 room." /></a>
+        <figcaption class="caption">Table 20. Complete sentence-level evidence and attribution analysis, reproduced from the manuscript. <a href="assets/sentence_evidence.pdf">Vector PDF</a> · <a href="assets/sentence_evidence.png">Full-size image</a></figcaption>
       </figure>
 
-      <p class="note">Retrieved evidence and attention weights are inspection aids, not measurements of
-      causal contribution. The figures are illustrative examples, not a live inference interface.</p>
-
-      <div class="grid">
-        <div class="card">
-          <h3>Implicit Aspect Grounding</h3>
-          <p>
-            Example: linking “valet” to the service aspect and grounding it to an opinion phrase, following the need
-            to resolve implicit sentiment cues in ABSA <a href="#ref-fei2023">[5]</a>.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Cross-sentence Evidence</h3>
-          <p>
-            Aggregating evidence distributed across several review sentences, a core issue in document-level
-            multi-aspect sentiment classification <a href="#ref-yin2017">[1]</a>,
-            <a href="#ref-ji2020">[2]</a>.
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Mixed Opinions</h3>
-          <p>
-            A review can praise some details and criticize others within the same aspect. Retrieved tuples retain
-            these local polarities; the document classifier produces a single final polarity for that aspect.
-            Tuple counts alone do not define the prediction.
-          </p>
-        </div>
-      </div>
+      <p class="note">Attention is an aggregation weight. Contribution is the additive share of the
+      positive-minus-negative logit with contextual sentence representations held fixed; it is not a causal
+      removal experiment. Contributions sum to the logit margin up to the classifier bias.</p>
     </section>
 
     <section id="figures">
-      <h2>Additional Figures</h2>
-
-      <div class="figure-grid">
-        <figure>
-          <img class="figure-img" src="assets/evidence_matching.png" alt="Document-aware evidence matching" />
-          <figcaption class="caption">
-            Figure 3: Document-aware evidence matching in KASM, motivated by retrieval-based ABSA
-            <a href="#ref-zheng2024">[7]</a>.
-          </figcaption>
-        </figure>
-
-        <figure>
-          <img class="figure-img" src="assets/error_analysis.png" alt="Error analysis" />
-          <figcaption class="caption">
-            Figure 4: Retrieval error analysis for implicit aspect cues and cross-sentence sentiment aggregation
-            <a href="#ref-fei2023">[5]</a>, <a href="#ref-ji2020">[2]</a>.
-          </figcaption>
-        </figure>
-      </div>
+      <h2>Document-Aware Evidence Matching</h2>
+      <figure>
+        <a href="assets/evidence_matching.png" target="_blank" rel="noopener noreferrer"><img class="figure-img" loading="lazy" src="assets/evidence_matching.png" alt="Figure 1: knowledge construction and evidence matching for location, service, and room." /></a>
+        <figcaption class="caption">Figure 1. From ATOP knowledge to aspect-conditioned evidence for a new review. <a href="assets/evidence_matching.pdf">Vector PDF</a> · <a href="assets/evidence_matching.png">Full-size image</a></figcaption>
+      </figure>
     </section>
 
     <section id="references">

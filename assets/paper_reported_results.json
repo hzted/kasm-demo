@@ -1,0 +1,199 @@
+{
+  "source_document": "EMNLP_KASM.pdf",
+  "source_page": 8,
+  "status": "manuscript-reported; not newly evaluated or independently verified for this site",
+  "table3_columns": [
+    "Beer All Acc",
+    "Beer All F1",
+    "Beer >512 Acc",
+    "Beer >512 F1",
+    "Trip All Acc",
+    "Trip All F1",
+    "Trip >512 Acc",
+    "Trip >512 F1"
+  ],
+  "table3": [
+    {
+      "category": "Task-specific doc-level ABSA",
+      "model": "D-MILN",
+      "values": [
+        72.59,
+        70.67,
+        68.4,
+        65.54,
+        73.16,
+        72.95,
+        71.82,
+        71.71
+      ]
+    },
+    {
+      "category": "Task-specific doc-level ABSA",
+      "model": "AB-DMSC",
+      "values": [
+        84.56,
+        81.77,
+        88.21,
+        83.04,
+        80.8,
+        80.16,
+        79.1,
+        79.05
+      ]
+    },
+    {
+      "category": "Task-specific doc-level ABSA",
+      "model": "DART",
+      "values": [
+        88.13,
+        86.19,
+        91.04,
+        88.41,
+        86.25,
+        85.65,
+        84.69,
+        84.56
+      ]
+    },
+    {
+      "category": "Prompt-based fine-tuning",
+      "model": "InstructABSA",
+      "values": [
+        88.29,
+        86.61,
+        82.08,
+        76.95,
+        84.43,
+        83.98,
+        80.18,
+        80.09
+      ]
+    },
+    {
+      "category": "Prompt-based fine-tuning",
+      "model": "THOR",
+      "values": [
+        88.45,
+        87.07,
+        90.09,
+        87.61,
+        86.6,
+        86.06,
+        82.63,
+        82.46
+      ]
+    },
+    {
+      "category": "Direct LLM prompting",
+      "model": "GPT-5.5 zero-shot",
+      "values": [
+        85.5,
+        84.04,
+        88.68,
+        86.57,
+        75.01,
+        74.71,
+        83.88,
+        83.86
+      ]
+    },
+    {
+      "category": "Direct LLM prompting",
+      "model": "GPT-5.5 few-shot",
+      "values": [
+        85.62,
+        84.19,
+        90.09,
+        87.73,
+        71.99,
+        71.72,
+        80.78,
+        80.78
+      ]
+    },
+    {
+      "category": "Knowledge-enhanced",
+      "model": "Retrieval-IT",
+      "values": [
+        86.84,
+        85.05,
+        79.25,
+        71.21,
+        82.84,
+        82.44,
+        79.91,
+        79.87
+      ]
+    },
+    {
+      "category": "Knowledge-enhanced",
+      "model": "KASM",
+      "values": [
+        91.02,
+        89.8,
+        91.04,
+        88.66,
+        88.13,
+        87.63,
+        87.35,
+        87.26
+      ]
+    }
+  ],
+  "table4": [
+    {
+      "variant": "KASM",
+      "values": [
+        91.02,
+        89.8,
+        88.13,
+        87.63
+      ]
+    },
+    {
+      "variant": "w/ mean pooling",
+      "values": [
+        88.49,
+        86.8,
+        86.78,
+        86.31
+      ]
+    },
+    {
+      "variant": "w/o sequence loss",
+      "values": [
+        88.97,
+        87.19,
+        86.19,
+        85.67
+      ]
+    },
+    {
+      "variant": "w/o confidence prior",
+      "values": [
+        87.8,
+        85.85,
+        87.05,
+        86.69
+      ]
+    },
+    {
+      "variant": "w/o pseudo guidance",
+      "values": [
+        88.7,
+        87.02,
+        86.72,
+        86.22
+      ]
+    },
+    {
+      "variant": "w/o contrastive learning",
+      "values": [
+        85.99,
+        83.73,
+        84.99,
+        84.62
+      ]
+    }
+  ]
+}

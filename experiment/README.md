@@ -66,13 +66,36 @@ The default KASM configuration follows the TripAdvisor KASM run used in our expe
 Checkpoints are not bundled in this anonymous code repository. Place a checkpoint
 under `checkpoints/` or pass its path through `CKPT=/path/to/checkpoint.ckpt`.
 
-## Evaluation outputs
+## Manuscript Results
 
-Evaluate labeled document–aspect pairs using accuracy and binary macro-F1.
-The manuscript defines long documents as having more than 512 FLAN-T5 tokens
-before model input truncation. Numerical comparison tables are not included in
-this documentation revision. Preserve the prediction files and the checkpoint
-identity when reporting an evaluation.
+Values and significance markers below are transcribed from Tables 3–4 of the manuscript (EMNLP_KASM.pdf, October 16, 2026); they are manuscript-reported results, not a new evaluation or independent verification performed for this website.
+
+### Table 3
+
+| Model | Beer All Acc | Beer All F1 | Beer >512 Acc | Beer >512 F1 | Trip All Acc | Trip All F1 | Trip >512 Acc | Trip >512 F1 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| D-MILN | 72.59 | 70.67 | 68.40 | 65.54 | 73.16 | 72.95 | 71.82 | 71.71 |
+| AB-DMSC | 84.56 | 81.77 | 88.21 | 83.04 | 80.80 | 80.16 | 79.10 | 79.05 |
+| DART | 88.13 | 86.19 | 91.04 | 88.41 | 86.25 | 85.65 | 84.69 | 84.56 |
+| InstructABSA | 88.29 | 86.61 | 82.08 | 76.95 | 84.43 | 83.98 | 80.18 | 80.09 |
+| THOR | 88.45 | 87.07 | 90.09 | 87.61 | 86.60 | 86.06 | 82.63 | 82.46 |
+| GPT-5.5 zero-shot | 85.50 | 84.04 | 88.68 | 86.57 | 75.01 | 74.71 | 83.88 | 83.86 |
+| GPT-5.5 few-shot | 85.62 | 84.19 | 90.09 | 87.73 | 71.99 | 71.72 | 80.78 | 80.78 |
+| Retrieval-IT | 86.84 | 85.05 | 79.25 | 71.21 | 82.84 | 82.44 | 79.91 | 79.87 |
+| KASM | 91.02† | 89.80† | 91.04 | 88.66 | 88.13† | 87.63† | 87.35† | 87.26† |
+
+† reproduces the manuscript’s paired-permutation significance markers; tests were not rerun for this page.
+
+### Table 4
+
+| Variant | Beer Acc | Beer F1 | Trip Acc | Trip F1 |
+|---|---:|---:|---:|---:|
+| KASM | 91.02 | 89.80 | 88.13 | 87.63 |
+| w/ mean pooling | 88.49 | 86.80 | 86.78 | 86.31 |
+| w/o sequence loss | 88.97 | 87.19 | 86.19 | 85.67 |
+| w/o confidence prior | 87.80 | 85.85 | 87.05 | 86.69 |
+| w/o pseudo guidance | 88.70 | 87.02 | 86.72 | 86.22 |
+| w/o contrastive learning | 85.99 | 83.73 | 84.99 | 84.62 |
 
 ## Setup
 
